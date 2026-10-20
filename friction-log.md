@@ -1,5 +1,9 @@
 # Friction log
 
+You-are-here bootstrap provenance (2026-10-21): skill and Codebase Map template derived from SPEC 2, 3.3–3.6, 5, 8, 9.1 and 10. Task-scoped orientation, evidence-based ownership, and standalone packaging only; comprehensive behavioral evaluation deferred by the author until portfolio development. Structural checks do not establish activation accuracy, exploration quality, evidence accuracy, or real-world usefulness. Existing stale implementation counts/version wording in README.md and docs/development.md remain outside scope.
+
+2026-10-21 | opaque | you-are-here | structural validation | Initial unittest run encountered Windows sandbox temporary-directory creation/cleanup PermissionErrors; rerun requested outside sandbox rather than changing tests or bypassing permissions. Optional skill-creator quick_validate.py cannot import PyYAML in the bundled Python runtime | Record sandbox run as blocked and rerun results separately; retain dependency-free metadata/packaging checks and leave optional YAML validator blocked without installing dependencies
+
 Prove-it bootstrap provenance (2026-10-21): skill and Test Set template derived from SPEC 3.5–3.6, 5, 8, 9.1 and 10. Standalone packaging/structural validation only; comprehensive behavioral evaluation deferred by the author until portfolio development. This is not an observed behavioral result or routing metric. Follow-up maintenance: README.md and docs/development.md contain stale implementation counts and milestone/version wording; left unchanged in this implementation scope.
 
 Source: SPEC Appendix B. One line per entry:
