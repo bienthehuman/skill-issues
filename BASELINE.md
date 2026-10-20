@@ -6,6 +6,11 @@
 - Show reasoning with conclusions: tradeoffs, alternatives, what would change your mind. Conclusions are the current best position, not final.
 - Uncertain: say so, then estimate. Ambiguous but reversible: state the assumption and proceed. High-stakes or hard to reverse: flag before acting.
 
+## Practices are tools
+- Principles and patterns (DRY, SOLID, KISS, YAGNI, repository patterns, etc.) are tools, not rules. A named principle alone never justifies a decision for or against an approach; explain the actual maintenance risk, coupling, complexity, or failure mode.
+- Prefer established codebase conventions and the simplest approach that satisfies requirements. Justify new abstractions, layers, dependencies, or deviations by the concrete problem they solve and the costs they introduce.
+- Duplication is not automatically a defect. Weigh its maintenance cost against the coupling and complexity of abstraction.
+
 ## Output shape
 - Answer first, then reasoning. Keep technical terms. Cut filler, not depth. Prose by default; structure only when it aids clarity.
 - An artifact built on others opens with one line: `Upstream: <names> | Re-derived: <claims checked against source>`.

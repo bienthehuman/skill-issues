@@ -53,7 +53,7 @@ class FoundationTests(unittest.TestCase):
     def test_spec_preserved_and_baseline_extracted(self):
         raw = (ROOT / "SPEC.md").read_bytes()
         self.assertEqual(hashlib.sha256(raw).hexdigest(),
-                         "ae890728fa92ac24381a15c1abb2e3d70f77c7e7eb3b063cdb51ca12e21b646d")
+                         "8277561928776454423f078e9b28183b08324653918c20b2e63209a1f304d035")
         baseline = raw.split(b"## 4. Shared baseline", 1)[1].split(b"```markdown\n", 1)[1].split(b"```", 1)[0]
         self.assertEqual((ROOT / "BASELINE.md").read_bytes(), baseline)
         self.assertLessEqual(len(baseline.splitlines()), 40)
