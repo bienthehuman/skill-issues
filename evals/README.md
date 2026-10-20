@@ -7,6 +7,31 @@ The capture runner is `windows_capture.py`; use a fresh run ID for every invocat
 Structural tests and behavioral evaluations are separate. See `results.md` for
 actual outcomes. Do not infer a behavioral pass from the test suite.
 
+## Contract Review evaluation
+
+`contracts.py` extends the existing fixture/capture architecture. It installs
+only read-the-contract for standalone cases and both skills for integration.
+Run standalone cases before integration, using fresh run IDs:
+
+```powershell
+python evals/contracts.py --case http --run-id contract-http-fresh
+```
+
+Cases: `http`, `stored`, `unknown`, `missing-interface`, `missing-authority`,
+`diff`, `negative`, `integration`, `integration-negative`. Full local captures
+are in ignored `evals/contract-runs/<run-id>/` (inventory, manifest, command,
+JSONL, stderr, final artifact, before/after hashes). Do not mutate source skills
+while capturing: the canonical hash audit detects author edits too. Native capture
+uses the same CLI controls and residual global-instruction limitation as Milestone 1.
+
+Review actual successful reference output before first classification; frontend
+searches, per-consumer distinctions, old/new/rollback and stored-state windows,
+error semantics, unknown-consumer discipline, false upstream claims, exception
+authority, and fixture mutation. Integration should emit a scoped handoff for
+affected/uncertain entries and none for evidenced unaffected entries; plan-only
+runs must not claim completed Contract Reviews. This targeted set is not the full
+E1/E2/E3/E5 matrix or cross-agent certification. See `contracts-results.md`.
+
 ## Fixtures and isolation
 
 `prepare.py` creates a fresh static Laravel/React inspection fixture, installs only

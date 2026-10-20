@@ -42,7 +42,13 @@ Apply the engineering baseline's evidence and authority rules.
    entries only; name the investigation needed for each uncertainty. Collapse
    only under all four conditions in the reference, never for an inferred check.
    Every affected/uncertain surface needs an explicit scoped read-the-contract
-   handoff. If unavailable, identify the required review and inputs without
+   handoff: name the surface/status, planned change, source evidence, known
+   consumers/search limits, and unresolved questions. Request a plan-time
+   Contract Review covering per-consumer compatibility, the compatibility window,
+   migration path, and error semantics. Carry any existing Contract Review as
+   an upstream claim to re-check; do not present a handoff as a completed review
+   or run contract review for evidenced unaffected surfaces.
+   If unavailable, identify the required review and inputs without
    inventing a placeholder skill or claiming the review happened.
    If the reference cannot be read, state it could not be loaded, list surfaces
    1 through 9 as `uncertain` with failed access as evidence and restoring/reading
