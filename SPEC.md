@@ -1,7 +1,7 @@
 # Skill Issues: Canonical Specification
 
-**Version:** 0.9 (draft for Wave 1 testing)
-**Date:** 2026-10-20
+**Version:** 0.10 (provisional implementation across Waves 1–3)
+**Date:** 2026-10-21
 **Scope:** 17 skills + 1 always-on baseline, in three build waves
 **Primary user:** the author. Juniors are a secondary audience, so shared pieces must carry their own rules.
 **Stack the specification is tuned for:** Laravel, Django, .NET backends; React + TypeScript frontends; MySQL, MariaDB, or PostgreSQL (one engine per codebase, possibly several databases or connections of that engine).
@@ -16,7 +16,7 @@ This document is the source of truth. SKILL.md files, reference files, and evals
 
 This source-of-truth rule governs repository maintenance, not host instruction precedence. Skill Issues follows the host agent's actual instruction hierarchy, applies compatible project conventions, and discloses consequential conflicts unresolved by that hierarchy. Baseline text does not enforce sandbox or permission restrictions.
 
-Out of scope for v0.1: wave 2 and wave 3 SKILL.md files, junior rollout, tooling for automatic artifact validation.
+Implementation scope includes all 17 skills across Waves 1–3, with structural and packaging validation during implementation. Comprehensive behavioral evaluation follows complete implementation, a separate integration-readiness assessment, and an initial freeze and tag, through portfolio development (sections 11.9–11.10). Junior rollout and tooling for automatic artifact validation remain out of scope for this implementation cycle.
 
 ---
 
@@ -35,7 +35,7 @@ Out of scope for v0.1: wave 2 and wave 3 SKILL.md files, junior rollout, tooling
 
 ### 3.1 Waves
 
-Waves are decided by dependency, not by importance. A skill is not built before the skills it hands off to.
+Waves organize implementation by dependency relationships, not importance. Prefer implementing handoff recipients before their producers; later-wave skills may be provisionally implemented before earlier waves satisfy behavioral reliability criteria. Preserve actual dependencies, skill responsibilities, handoff contracts, standalone fallbacks, and missing-dependency rules in sections 3.3–3.6; provisional implementation does not make an unavailable recipient usable.
 
 | Wave | Skills | Why this grouping |
 |---|---|---|
@@ -49,13 +49,19 @@ Count check: 7 + 6 + 4 = 17 skills. The baseline is an instruction file, not a s
 
 ### 3.2 Build order inside Wave 1
 
-0. **Reference-loading integration test (section 11.0)**, run on `think-before-you-commit` installed alone, before any other skill is written.
+0. **Reference-loading integration test (section 11.0)**, retained as an early focused evaluation and required for Wave 1 behavioral validation, not a prerequisite for writing further skills. Check standalone packaging structurally during implementation.
 1. **Slice:** baseline, think-before-you-commit, trust-issues, read-the-contract. Together these exercise the plan-time check, the review-time check, the handoff to read-the-contract, and drift detection.
 2. **prove-it, you-are-here.**
 3. **but-it-works-on-my-machine.**
-4. **previously-on:** write handoffs by hand from the template (Appendix A) from day one, before the skill exists. Formalize it after a few real handoffs.
+4. **previously-on:** write handoffs by hand from the template (Appendix A) from day one, before the skill exists. Provisionally formalize it from the template; refine it using real handoffs during portfolio evaluation.
 
-Wave 2 does not start until the Wave 1 exit criteria in section 11.7 are met.
+Waves 2 and 3 may proceed provisionally before the Wave 1 behavioral exit criteria in section 11.7 are met. Structural validation is expected throughout implementation; defer comprehensive behavioral evaluation until the complete inventory is available for portfolio development. Implementation or structural validation alone establishes no behavioral reliability.
+
+Use three distinct statuses:
+
+- **Implementation complete:** all 17 skills and required templates/references are implemented, with structural and packaging check results recorded. This does not automatically grant integration readiness.
+- **Integration ready:** after implementation is complete, the separate assessment in section 11.9 has found no unresolved structural integration blockers and explicitly recorded behavioral gaps. This is not behavioral validation.
+- **Behaviorally validated:** observed evidence meets the applicable evaluation criteria; Wave 1 requires every criterion in section 11.7. Neither implementation completion nor integration readiness waives any reliability gate or establishes reliability for another wave.
 
 ### 3.3 Entry routing
 
@@ -586,7 +592,7 @@ Each artifact states which of its claims are load-bearing, so consumers know wha
 
 ### 11.0 First integration test: reference loading and the Interface Check
 
-Run this before writing any further skills. Targets: Codex and Claude Code. Install the skill **alone** (not the whole repository) so that path-resolution failures show up. Run from the project's working directory, not the skill's folder. Run each case 3 times per agent, since behavior is nondeterministic.
+Retain this focused behavioral integration test for Wave 1 validation; outstanding runs do not block provisional implementation of further skills. Targets: Codex and Claude Code. Install the skill **alone** (not the whole repository) so that path-resolution failures show up. Run from the project's working directory, not the skill's folder. Run each case 3 times per agent, since behavior is nondeterministic.
 
 | Case | Setup | Expected |
 |---|---|---|
@@ -606,6 +612,8 @@ Run this before writing any further skills. Targets: Codex and Claude Code. Inst
 ### 11.1 Goals and method
 
 Evaluate **workflows**, not only individual skills: an error that propagates through several skills is the failure this design introduces. Measure the failure modes that matter most: Interface Check accuracy, inherited errors, opaque reasoning, and unnecessary activation, plus authority behavior and cost.
+
+Structural checks accompany implementation. Comprehensive behavioral evaluation is deferred until all 17 skills are available, the separate integration-readiness assessment is complete, and the initial implementation is frozen and tagged for portfolio use (sections 11.9–11.10). Existing focused evaluations and failures remain evidence with their original limitations; deferral neither satisfies nor weakens any criterion below.
 
 **Tester bias.** The author is the first tester and will unconsciously compensate for weak skills with good prompting. Run a deliberate share of tests with lazy, junior-style prompts ("add caching to this endpoint", "fix the login bug"). Run each seeded case with the skills installed and, for a subset, without them.
 
@@ -688,9 +696,9 @@ Any "no" is logged as `opaque`. **Threshold:** fewer than 15% of runs carry an `
 - Measure the baseline's per-turn token cost and the typical length of each artifact.
 - For at least 5 tasks, compare with and without the skill. A skill stays only if you can name a concrete difference (a catch, a clearer decision). If you cannot, trim or cut it.
 
-### 11.7 Wave 1 exit criteria
+### 11.7 Wave 1 behavioral validation exit criteria
 
-Wave 2 starts when all hold:
+Declare Wave 1 behaviorally validated only when all hold. These criteria do not control permission to begin Wave 2 or Wave 3 implementation:
 
 1. The section 11.0 reference-loading test passes on both target agents with skills installed individually.
 2. E5 authority scenarios pass 100%.
@@ -721,7 +729,40 @@ Include at least three positive and three negative routing prompts, including la
 
 ---
 
+### 11.9 Complete-workflow integration readiness
+
+After all 17 skills are implemented, perform a separate focused inspection and structural integration assessment before freezing the initial complete implementation. Adding the seventeenth skill does not grant readiness. Record evidence, failures, blockers, and explicit behavioral validation gaps for:
+
+- The complete 17-skill inventory and unchanged wave assignments.
+- Standalone installation, private artifact templates, required reference packaging and loading directives.
+- Cross-skill routing descriptions, exclusions, and unavailable-skill/standalone fallbacks.
+- Artifact producer/consumer handoff compatibility against the existing contracts.
+- Shared-reference synchronization and drift checks.
+- Obvious instruction contradictions and missing dependencies.
+- Known structural failures and blockers, including their resolution or why they block readiness.
+- Outstanding behavioral evaluations, target-agent/isolation limitations, and unsupported reliability claims.
+
+Readiness requires no unresolved structural integration blocker; behavioral gaps must remain explicit rather than being counted as passes. Use existing inspection, packaging tests and reference checks, not a new comprehensive automated evaluation framework. This milestone establishes structural integration readiness only, not behavioral correctness.
+
+### 11.10 Versioned practical evaluation
+
+After the section 11.9 assessment establishes integration readiness, freeze and tag the initial complete implementation before portfolio development. Retain that version as the comparison baseline. Build a portfolio project using relevant skills naturally, observe actual behavior, revise from evidence, and repeat with subsequent portfolio projects. Natural use does not replace the seeded cases, comparisons, or thresholds required for behavioral validation.
+
+Use Appendix B's existing friction-log entry format and types for failures and friction, linking supporting project/evaluation records rather than introducing a competing log format. Each cycle records:
+
+- Skill-set tag or commit, agent/model/settings, and installed inventory.
+- Project context, relevant constraints, prompts, skills invoked, and important missed activations.
+- Observable behavior and execution evidence, including useful behavior, incorrect or unnecessary activations, obstructive behavior, friction, and improvement opportunities.
+- Improvement hypotheses linked to observations, and changes made in the next version.
+- Comparable regression checks against previously observed failures, with actual outcomes and remaining gaps.
+
+Preserve original failed cases, fixtures, prompts, traces and results; do not overwrite them with successful reruns. Distinguish anecdotal observations from repeatable evidence. Before claiming improvement, compare the relevant prior cases under comparable task/fixture, model/settings and inventory conditions, recording version differences and unavoidable confounders. Success on a different portfolio project alone does not prove improvement. Continue targeted evaluation against the unchanged reliability requirements; record failed, blocked and unrun checks explicitly.
+
+---
+
 ## 12. Unresolved decisions
+
+Behavior-dependent decisions remain open or provisional until their stated evidence is available during evaluation; provisional later-wave implementation does not resolve them. Keep existing defaults and revisit triggers, and record reasoned deferrals for Wave 1 validation under section 11.7. This sequencing amendment does not adjust numeric thresholds or mark outstanding decisions satisfied.
 
 | # | Decision | Current default | What would resolve it | Revisit trigger |
 |---|---|---|---|---|
@@ -808,7 +849,7 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 - **Baseline as an instruction file, always on.** Concision, partner behavior, and authority rules apply to every turn, not to a task type. The cost is context on every turn, which is why the 40-line cap exists.
 - **One-dimension evidence labels.** Five separate dimensions would be paperwork. Provenance (`reconstructed`) and reversibility (`one-way`) sit in their own slots where they are needed, and artifact status exists only in previously-on.
 - **The original nine surfaces, not a generic list.** The stack-specific ones (stored serialized state, observable names, the backend/frontend boundary search) are where real incidents come from. UI behavior is covered better by tests than by a contract check.
-- **Slice before waves.** The Interface Check loop (plan, contract review, review, drift) is the riskiest design piece, so it is tested first.
+- **Slice before waves.** The Interface Check loop (plan, contract review, review, drift) is the riskiest design piece, so the slice remains the first implementation focus and an early focused evaluation target. Its behavioral pass is not a prerequisite for provisional later-wave implementation.
 - **Recommendations, not approvals.** Skills recommend merge or ship. Humans authorize, so an agent's own verdict is never the permission.
 - **References bundled per skill, one canonical source.** Support for reference files is not guaranteed retrieval, and a shared path may not resolve when skills are installed individually. Each skill carries its own copy and an explicit read directive, and a sync check prevents drift.
 - **`uncertain` is a request to investigate, not a finding.** Reporting an unresolved surface as `affected` would assert a contract change nobody established. Gating still applies to its possible impact, so the uncertainty is neither ignored nor overstated.
@@ -817,6 +858,10 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 ---
 
 ## Appendix D: Revision history
+
+**0.10**
+
+- Separate implementation progression from behavioral validation: permit provisional implementation of all 17 skills across the existing three waves with structural/packaging checks, then require a separate complete-workflow integration-readiness assessment before freezing and tagging the initial implementation for portfolio evaluation. Preserve section 11.7's Wave 1 criteria as behavioral validation gates, all thresholds, authority rules, dependencies, standalone fallbacks and existing failure evidence. Require versioned observations and comparable regression evidence for improvement claims; update only directly conflicting roadmap references. This amendment grants neither integration readiness nor behavioral validation.
 
 **0.9**
 

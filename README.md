@@ -53,7 +53,7 @@ The foundation passed 15 automated tests on Windows using Python 3.12.14.
 Milestone 1 adds the planning template, bundled references, isolated evaluation fixtures, and structural tests. See [evaluation results](evals/results.md); Milestone 1 is not complete.
 
 `read-the-contract` now provides standalone Contract Reviews and scoped planning
-handoffs. Development continues under the author's Codex-only validation allowance;
+handoffs. SPEC section 3.2 permits provisional implementation across all three waves;
 Claude Code evaluation and complete instruction isolation remain required before
 claiming full cross-agent compatibility. See [contract evaluation](evals/contracts-results.md).
 
@@ -93,7 +93,7 @@ The collection is organized into three implementation waves.
 | `garbage-in-garbage-out` | Improve task formulation and prompt quality |
 | `i-dont-know` | Build understanding of unfamiliar technical topics |
 
-The waves represent implementation dependencies, not relative importance.
+The waves organize implementation dependencies, not relative importance. Later waves may be implemented provisionally before earlier waves pass behavioral validation. Structural checks accompany implementation; integration readiness requires a separate assessment after all 17 skills exist, before the initial freeze and tag for portfolio evaluation. Neither implementation completion nor integration readiness establishes behavioral reliability.
 
 ## Getting Started
 
@@ -180,12 +180,16 @@ For implementation details, refer to `SPEC.md` and the repository's technical do
 ## Roadmap
 
 - [x] Milestone 0 — Repository foundation and tooling
-- [ ] Milestone 1 — First skill and reference-loading evaluation
-- [ ] Milestone 2 — Interface Check workflow
-- [ ] Milestone 3 — Complete Wave 1
-- [ ] Milestone 4 — Wave 1 evaluation and release
-- [ ] Wave 2 — Engineering decision specialists
-- [ ] Wave 3 — Operations, performance, and learning
+- [ ] Milestone 1 — First skill and reference-loading evaluation (outstanding behavioral evidence does not block implementation)
+- [ ] Milestone 2 — Interface Check workflow validation
+- [x] Milestone 3 — Wave 1 implementation inventory complete; behavioral validation remains pending
+- [ ] Wave 2 — Provisional implementation of engineering decision specialists
+- [ ] Wave 3 — Provisional implementation of operations, performance, and learning
+- [ ] Complete inventory — Record structural and packaging validation for all 17 skills
+- [ ] Integration readiness — Separate assessment after complete implementation (SPEC 11.9)
+- [ ] Initial complete implementation — Freeze and tag before portfolio development
+- [ ] Practical evaluation — Portfolio use, evidence-driven revisions, and comparable regression checks; preserve original failures (SPEC 11.10)
+- [ ] Wave 1 behavioral validation — Meet all existing exit criteria (SPEC 11.7)
 
 ## A Final Thought
 
