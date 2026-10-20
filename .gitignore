@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 evals/windows-*/
 evals/contract-runs/
+evals/review-runs/
 evals/baseline-runs/
 /evals/contract-evidence/
 
