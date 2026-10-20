@@ -62,10 +62,11 @@ In a disposable project, install for each agent independently. Start the agent t
 
 ## Milestone 1
 
-`think-before-you-commit` is implemented with its own artifact template and bundled references. Before writing any further skills, run SPEC section 11.0 with that skill installed alone, from the project directory: three cases, three runs each on Codex and Claude Code (18 runs). Record reference reads before classification, outcomes, and every intervention. See `evals/README.md`.
+`think-before-you-commit` is implemented with its own artifact template and bundled references. SPEC section 11.0 remains required for Wave 1 behavioral validation, not for permission to implement further skills: run it with that skill installed alone, from the project directory, with three cases, three runs each on Codex and Claude Code (18 runs). Record reference reads before classification, outcomes, and every intervention. See `evals/README.md`.
 
-Author-authorized development allowance (2026-10-20): Wave 1 may continue after
-successful Codex-only validation. Claude Code and complete instruction isolation
-remain outstanding; this does not establish full cross-agent compatibility or
+SPEC section 3.2 now permits provisional implementation across Waves 1–3 with structural and packaging checks, preserving actual dependencies, handoff contracts and standalone fallbacks. After all 17 skills are implemented, assess integration readiness separately (11.9), then freeze and tag the initial complete implementation before portfolio development (11.10). Record versioned observations in the established friction-log conventions, preserve original failures, and require comparable regression evidence before claiming improvement. Implementation complete, integration ready and behaviorally validated are distinct statuses; none is granted by this roadmap amendment.
+
+The earlier Codex-only development allowance is superseded by that implementation sequencing. Claude Code and complete instruction isolation
+remain outstanding; provisional implementation does not establish full cross-agent compatibility or
 amend the baseline. For the standalone-before-integration contract evaluation,
 see `evals/contracts-results.md` and `evals/contracts.py`.
