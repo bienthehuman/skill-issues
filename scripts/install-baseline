@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+"""Preview or explicitly install a baseline block into one agent's project instructions."""
+
+import argparse
+import difflib
+import hashlib
+from pathlib import Path
+import re
+import sys
+
+from reference_tools import ROOT, atomic_write, local_path
+
+PREFIX = b"<!-- skill-issues:baseline"
+END = b"<!-- skill-issues:baseline:end -->\n"
+BLOCK = re.compile(
+    rb"<!-- skill-issues:baseline:start sha256=([0-9a-f]{64}) -->\n"
+    rb"(.*?)<!-- skill-issues:baseline:end -->\n", re.DOTALL
+)
+TARGETS = {"codex": "AGENTS.md", "claude": "CLAUDE.md"}
+
+
+def proposed_content(existing, baseline):
+    if not baseline.endswith(b"\n") or len(baseline.splitlines()) > 40:
+        raise ValueError("Baseline must end with a newline and contain at most 40 lines.")
+    baseline.decode("utf-8")
+    existing.decode("utf-8-sig")
+    digest = hashlib.sha256(baseline).hexdigest().encode("ascii")
+    managed = PREFIX + b":start sha256=" + digest + b" -->\n" + baseline + END
+    matches = list(BLOCK.finditer(existing))
+    if PREFIX in existing:
+        if len(matches) != 1 or existing.count(PREFIX) != 2:
+            raise ValueError("Malformed or duplicate baseline markers; refusing to repair user-owned instructions.")
+        match = matches[0]
+        if match.start() and existing[match.start()-1:match.start()] != b"\n":
+            raise ValueError("Baseline marker is not on its own line.")
+        if hashlib.sha256(match[2]).hexdigest().encode("ascii") != match[1]:
+            raise ValueError("Conflicting managed block: content differs from its recorded digest. Review manually.")
+        return existing[:match.start()] + managed + existing[match.end():]
+    separator = b"\n\n" if existing and not existing.endswith(b"\n") else b"\n" if existing else b""
+    return existing + separator + managed
+
+
+def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--agent", choices=TARGETS, required=True)
+    parser.add_argument("--project", type=Path, required=True,
+                        help="existing project root; launch the selected agent here")
+    parser.add_argument("--apply", action="store_true", help="write the previewed change")
+    args = parser.parse_args()
+    try:
+        project = args.project.resolve(strict=True)
+        if not project.is_dir():
+            raise ValueError("Project must be an existing directory.")
+        if args.agent == "codex" and (project / "AGENTS.override.md").exists():
+            raise ValueError("AGENTS.override.md would shadow AGENTS.md; review it manually first.")
+        if args.agent == "claude" and (project / ".claude" / "CLAUDE.md").exists():
+            raise ValueError("Alternate .claude/CLAUDE.md exists; review instruction ownership manually first.")
+        path = project / TARGETS[args.agent]
+        local_path(path, project)
+        existing = path.read_bytes() if path.exists() else b""
+        proposed = proposed_content(existing, (ROOT / "BASELINE.md").read_bytes())
+        print(f"Agent: {args.agent}; project instruction target: {path}")
+        print("Launch a NEW agent session from this directory. File installation does not prove runtime loading.")
+        if existing == proposed:
+            print("Already current; no changes.")
+            return 0
+        print("".join(difflib.unified_diff(
+            existing.decode("utf-8-sig").splitlines(keepends=True),
+            proposed.decode("utf-8-sig").splitlines(keepends=True),
+            fromfile=str(path), tofile=str(path) + " (proposed)")), end="")
+        if args.apply:
+            # Refuse changes made between the initial read and application.
+            current = path.read_bytes() if path.exists() else b""
+            if current != existing:
+                raise ValueError("Instruction file changed during preview; rerun and review.")
+            atomic_write(path, proposed)
+            print("Applied. Existing bytes outside the managed block were preserved.")
+        else:
+            print("Preview only. Review and rerun with --apply to write.")
+        return 0
+    except (OSError, ValueError, UnicodeError) as error:
+        print(str(error), file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
