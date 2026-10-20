@@ -1,0 +1,106 @@
+"""Native Windows Codex evaluation capture. Human trace review determines pass/fail."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+import tomllib
+
+from prepare import prepare
+
+ROOT = Path(__file__).resolve().parents[1]
+CODEX = shutil.which('codex')
+
+
+def hashes(folder):
+    return {str(p.relative_to(folder)): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in folder.rglob('*') if p.is_file() and '__pycache__' not in p.parts}
+
+
+def capture(run_id, case, output_root):
+    output = output_root.resolve() / run_id
+    output.mkdir(parents=True, exist_ok=False)
+    project = Path(tempfile.gettempdir()) / 'skill-issues-m1-windows-20261020' / run_id
+    prepare(project, 'codex', case)
+    # Suppress project discovery, then inject precisely the canonical baseline.
+    # Global AGENTS.md survives this CLI setting; retain this isolation limitation.
+    # The fixture still contains its independently installed AGENTS.md for audit.
+    config = ['windows.sandbox="elevated"', 'project_doc_max_bytes=0',
+              'developer_instructions=' + json.dumps((ROOT / 'BASELINE.md').read_text(encoding='utf-8')),
+              'tool_output_token_limit=20000', 'web_search="disabled"']
+    user_config = Path.home() / '.codex/config.toml'
+    cfg = tomllib.loads(user_config.read_text(encoding='utf-8')) if user_config.exists() else {}
+    for name in cfg.get('mcp_servers', {}):
+        config.append('mcp_servers.' + json.dumps(name) + '.enabled=false')
+        config.append('mcp_servers.' + json.dumps(name) + '.command=' + json.dumps('cmd.exe'))
+    for name in cfg.get('plugins', {}):
+        config.append('plugins.' + json.dumps(name) + '.enabled=false')
+    disabled = []
+    for base in (Path.home() / '.codex/skills', Path.home() / '.agents/skills',
+                 Path.home() / '.codex/plugins/cache'):
+        if base.exists():
+            disabled.extend(sorted({p.as_posix() for p in base.rglob('SKILL.md')}))
+    config.append('skills.config=[' + ','.join('{path=' + json.dumps(p) + ',enabled=false}' for p in disabled) + ']')
+    common = [CODEX, '--enable', 'skip_host_skill_discovery', '--disable', 'plugins', '-a', 'never', '-s', 'read-only', '-C', str(project)]
+    for value in config:
+        common.extend(['-c', value])
+    prompt = (project / 'prompt.txt').read_text(encoding='utf-8')
+    before = hashes(project)
+    canonical = {name: hashes(ROOT / name) for name in ('skills', 'shared')}
+    canonical.update({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                      for name in ('SPEC.md', 'BASELINE.md')})
+    version = subprocess.check_output([CODEX, '--version'], text=True).strip()
+    metadata = {'run_id': run_id, 'case': case, 'agent': 'codex', 'version': version,
+                'cwd': str(project), 'sandbox': 'read-only', 'windows_backend': 'elevated',
+                'approval': 'never', 'prompt': prompt, 'disabled_skill_paths': disabled,
+                'baseline_delivery': 'developer_instructions; project_doc_max_bytes=0',
+                'fixture_before': before, 'canonical_before': canonical, 'human_prompts': 0}
+    # Debug uses the same overrides, but lacks exec's ignore-user-config switch.
+    # Review this inventory before treating it as evidence of an isolated run.
+    audit = common + ['debug', 'prompt-input', prompt]
+    metadata['inventory_argv'] = audit
+    with (output / 'inventory.json').open('wb') as stdout, (output / 'inventory.stderr.txt').open('wb') as stderr:
+        metadata['inventory_exit_code'] = subprocess.run(audit, cwd=project, stdout=stdout, stderr=stderr).returncode
+    inventory = json.loads((output / 'inventory.json').read_text(encoding='utf-8-sig')) if metadata['inventory_exit_code'] == 0 else []
+    texts = [c.get('text', '') for m in inventory for c in m.get('content', [])]
+    catalogs = [t.split('### Available skills', 1)[1] for t in texts if '<skills_instructions>' in t and '### Available skills' in t]
+    available = [line for catalog in catalogs for line in catalog.splitlines() if line.startswith('- ')]
+    metadata['available_skills'] = available
+    metadata['single_skill_inventory'] = len(available) == 1 and available[0].startswith('- think-before-you-commit:')
+    metadata['global_instructions_present'] = any(t.startswith('# AGENTS.md instructions') for t in texts)
+    if not metadata['single_skill_inventory']:
+        metadata['result'] = 'blocked: single-skill inventory not established'
+        (output / 'run.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
+        raise RuntimeError(metadata['result'])
+    (output / 'manifest.json').write_bytes((project / 'manifest.json').read_bytes())
+    (output / 'prompt.txt').write_text(prompt, encoding='utf-8')
+    command = common + ['exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check',
+                        '--json', '-o', str(output / 'final.md'), '-']
+    metadata['argv'] = command
+    (output / 'run.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
+    print('RUNNING ' + run_id + ' in ' + str(project), flush=True)
+    with (output / 'trace.jsonl').open('wb') as stdout, (output / 'stderr.txt').open('wb') as stderr:
+        result = subprocess.run(command, cwd=project, input=prompt.encode('utf-8'), stdout=stdout, stderr=stderr)
+    metadata['exit_code'] = result.returncode
+    metadata['fixture_after'] = hashes(project)
+    metadata['fixture_unchanged'] = metadata['fixture_after'] == before
+    metadata['canonical_after'] = {name: hashes(ROOT / name) for name in ('skills', 'shared')}
+    metadata['canonical_after'].update({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                                      for name in ('SPEC.md', 'BASELINE.md')})
+    metadata['canonical_unchanged'] = metadata['canonical_after'] == canonical
+    metadata['result'] = 'not reviewed'
+    (output / 'run.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
+    print('CAPTURED ' + run_id + '; exit=' + str(result.returncode) + '; unchanged=' + str(metadata['fixture_unchanged']), flush=True)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--run-id', required=True)
+    parser.add_argument('--case', choices=('A', 'B', 'C'), required=True)
+    parser.add_argument('--output-root', type=Path, default=ROOT / 'evals/windows-20261020')
+    args = parser.parse_args()
+    if not args.run_id.replace('-', '').isalnum():
+        parser.error('run-id must contain only letters, digits and hyphens')
+    capture(args.run_id, args.case, args.output_root)
