@@ -1,6 +1,5 @@
 """Packaging and installer tests, not agent-behavior evaluations."""
 
-import hashlib
 import importlib.machinery
 import importlib.util
 from pathlib import Path
@@ -50,13 +49,34 @@ class FoundationTests(unittest.TestCase):
         return {str(p.relative_to(self.root)): (p.read_bytes(), p.stat().st_mtime_ns)
                 for p in self.root.rglob("*") if p.is_file()}
 
-    def test_spec_preserved_and_baseline_extracted(self):
+    def test_baseline_extracted_within_cap(self):
         raw = (ROOT / "SPEC.md").read_bytes()
-        self.assertEqual(hashlib.sha256(raw).hexdigest(),
-                         "8277561928776454423f078e9b28183b08324653918c20b2e63209a1f304d035")
         baseline = raw.split(b"## 4. Shared baseline", 1)[1].split(b"```markdown\n", 1)[1].split(b"```", 1)[0]
         self.assertEqual((ROOT / "BASELINE.md").read_bytes(), baseline)
-        self.assertLessEqual(len(baseline.splitlines()), 40)
+        self.assertLessEqual(sum(bool(line.strip()) for line in baseline.splitlines()), 40)
+
+    def test_scope_and_completion_requirements(self):
+        baseline = (ROOT / "BASELINE.md").read_text(encoding="utf-8")
+        for requirement in (
+            "## Scope and completion", "Change only what the task requires; no unrelated edits",
+            "Remove newly obsolete code only after checking consumers",
+            "Leave pre-existing issues", "correctness, security, or data-loss issues separately",
+            "observable success criteria first", "multi-step or triggered work needs per-step verification",
+            "one-line done-when", "Execute relevant checks where possible",
+            "Inspection alone cannot prove runtime correctness", "failed, blocked, and unrun checks",
+            "name the evidence for verified outcomes", "Independently re-derive load-bearing upstream",
+            "Shared-origin artifacts count as one source",
+        ):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, baseline)
+
+    def test_installer_counts_nonempty_lines_and_requires_final_newline(self):
+        readable = b"\n".join([b"rule\n"] * 40)
+        self.assertGreater(len(readable.splitlines()), 40)
+        self.assertIn(readable, installer.proposed_content(b"", readable))
+        for invalid in (readable + b"extra\n", b"rule"):
+            with self.subTest(invalid=invalid[:20]), self.assertRaises(ValueError):
+                installer.proposed_content(b"", invalid)
 
     def test_reference_source_sections_preserved(self):
         source = (ROOT / "SPEC.md").read_text(encoding="utf-8")

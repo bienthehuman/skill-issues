@@ -2,7 +2,7 @@
 name: think-before-you-commit
 description: |
   Turn a settled approach into an evidence-based Implementation Plan.
-  Use when: the approach is settled and a change touches persisted data, changes an interface, is hard to roll back, or crosses a module boundary.
+  Use when: the approach is settled and a baseline stakes trigger fires: consequential persistence changes, interface contract changes, hard rollback, shared integration boundaries/consequential coupling/material boundary uncertainty, or security-sensitive changes. Routine reads, ordinary application writes, and routine internal cross-module edits alone do not qualify.
   Do not use when: no stakes trigger fires, the change is trivial, the approach is disputed, or the task is diagnosis or completed-code review.
 ---
 

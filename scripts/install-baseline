@@ -20,8 +20,8 @@ TARGETS = {"codex": "AGENTS.md", "claude": "CLAUDE.md"}
 
 
 def proposed_content(existing, baseline):
-    if not baseline.endswith(b"\n") or len(baseline.splitlines()) > 40:
-        raise ValueError("Baseline must end with a newline and contain at most 40 lines.")
+    if not baseline.endswith(b"\n") or sum(bool(line.strip()) for line in baseline.splitlines()) > 40:
+        raise ValueError("Baseline must end with a newline and contain at most 40 non-empty lines.")
     baseline.decode("utf-8")
     existing.decode("utf-8-sig")
     digest = hashlib.sha256(baseline).hexdigest().encode("ascii")

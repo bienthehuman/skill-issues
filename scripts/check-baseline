@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+"""Report baseline size; estimates never establish token-ceiling compliance."""
+import argparse
+import json
+import math
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def measure(text, encoding="o200k_base"):
+    result = {"physical_lines": len(text.splitlines()),
+              "nonempty_lines": sum(bool(line.strip()) for line in text.splitlines()),
+              "longest_line_characters": max(map(len, text.splitlines()), default=0),
+              "characters": len(text), "target": [600, 700], "ceiling": 900}
+    try:
+        import tiktoken
+    except ImportError:
+        result.update(tokens=math.ceil(len(text) / 4), kind="estimate",
+                      method="ceil(Unicode characters / 4); not a tokenizer measurement",
+                      ceiling_status="unknown")
+    else:
+        # Loading/network failures must not masquerade as a successful measurement.
+        tokenizer = tiktoken.get_encoding(encoding)
+        tokens = len(tokenizer.encode(text))
+        result.update(tokens=tokens, kind="measured",
+                      method=f"tiktoken {tiktoken.__version__}; {encoding}",
+                      ceiling_status="within" if tokens <= 900 else "exceeded")
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("path", type=Path, nargs="?", default=ROOT / "BASELINE.md")
+    parser.add_argument("--encoding", default="o200k_base")
+    args = parser.parse_args()
+    try:
+        # Decode bytes directly: count the actual file, without newline translation.
+        result = measure(args.path.read_bytes().decode("utf-8"), args.encoding)
+        print(json.dumps(result, indent=2))
+        return int(result["nonempty_lines"] > 40 or result["ceiling_status"] == "exceeded")
+    except Exception as error:
+        parser.exit(1, f"Baseline measurement failed: {error}\n")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
