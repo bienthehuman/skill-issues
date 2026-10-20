@@ -1,0 +1,20 @@
+{
+  "agent": "codex",
+  "case": "A",
+  "skill_path": "/tmp/skill-issues-m1-codex-A1/.agents/skills/think-before-you-commit",
+  "fixture_sha256": {
+    "routes/api.php": "c13a58ffb3344fb8a861d641f254ab778f590d2efe72e03ac0cca1894080cb58",
+    "app/Http/Controllers/OrderController.php": "b0ae646f8e4e86626e1cf745b28dc311b8901d2593451fb62c6c2256a811f6fe",
+    "app/Http/Resources/OrderResource.php": "406b44a58d88190f112e786f6613f9223fe42f0bb1485a9e1cb56b9548fe569b",
+    "app/Http/Requests/ShowOrderRequest.php": "dc39f52b683637514d7d3c02f9b598a81616a51dd7e2575a942b865e437d4b8b",
+    "resources/js/hooks/useOrder.ts": "b786660be939aef2c8a8a7b2120085aeef5a53a4f19e18f6e3cf0f914bf5d3de",
+    "FIXTURE.md": "b557e12990c802fdda8cad49d83aacdcc0429c996fd2a72fe39dcac04c44c6a9"
+  },
+  "skill_sha256": {
+    "SKILL.md": "4c61ff04d8d460d52392c3787127441d449f39e22a307626c862b3c2cfdf1458",
+    "references/interface-check.md": "077466f56416c7fc1c4b128946c0896f27247d7e187e036751b3dddd07eaa991",
+    "references/authorization.md": "0f0d18cccdf9758dfec39257e0ab3a3ced59c6ddfe06bdb893ad4d8e349a513e",
+    "references/implementation-plan.md": "55dc64cae7fdf7eac05f5ad434f6ee0b7d182ea77ac0cd9077ac15cea2ed80d7"
+  },
+  "missing_reference": false
+}

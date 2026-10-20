@@ -1,12 +1,12 @@
 # Skill Issues
 
-Reusable engineering skills for AI coding agents. Milestone 0 establishes packaging and installation tooling; no skills are implemented yet.
+Reusable engineering skills for AI coding agents. Milestone 0 established packaging and installation tooling. Milestone 1 adds think-before-you-commit; behavioral validation remains pending.
 
 ## Sources and layout
 
 `SPEC.md` is the canonical v0.2 specification, renamed byte-for-byte from `skill-issues-spec.md`. It takes precedence over derived instructions. `BASELINE.md` is its section 4 instruction block, extracted verbatim (32 lines; maximum 40). The references in `shared/references/` are the canonical packaging sources derived from sections 6 and 7, with the applicable loading fallback and materially-risky definition. Edit shared references here, never in bundles.
 
-Future skills live at `skills/<name>/SKILL.md`, with bundled references and their own artifact templates in `references/`. The loading map in `scripts/reference_tools.py` implements SPEC section 3.6 and is tested against that table. It includes later-wave names only as packaging metadata; no later-wave implementation is supplied. Other skills receive no shared references.
+Skills live at `skills/<name>/SKILL.md`, with bundled references and their own artifact templates in `references/`. The loading map in `scripts/reference_tools.py` implements SPEC section 3.6 and is tested against that table. It includes later-wave names only as packaging metadata; no later-wave implementation is supplied. Other skills receive no shared references.
 
 `tests/` validates tooling. `evals/` is reserved for behavioral evaluation. `friction-log.md` follows Appendix B. No dependency manager or build framework is needed.
 
@@ -22,7 +22,7 @@ python -m unittest discover -s tests -v
 
 Scripts locate their repository from their own file location, so absolute script paths work from another working directory. The reference scripts also accept `--root <repository>` for isolated fixtures. Invoke extensionless scripts through Python on Windows and Unix; executable permission is not required.
 
-With no skills installed in this repository, reference checks explicitly report zero skills and vacuous bundle validation. The automated tests create temporary skill fixtures to exercise actual copying, drift, and failure cases. Fixtures are not implemented skills.
+The repository now contains one skill. Reference checks validate its bundled copies. The automated tests create temporary skill fixtures to exercise actual copying, drift, and failure cases. Fixtures are not implemented skills.
 
 ## Editing and synchronization
 
@@ -60,6 +60,6 @@ Official documentation checked on 2026-10-20: [Codex instruction discovery](http
 
 In a disposable project, install for each agent independently. Start the agent there, inspect its instruction-source display/logs (`/memory` in Claude Code), and ask it to summarize the baseline's authority rules. Retain the transcript and loaded path. For Codex, the official guide also describes session/TUI logs for auditing loaded sources. Do not claim activation merely because the file exists or the agent can read it on request. These live checks are separate from the installer tests and have not been executed in Milestone 0.
 
-## Next milestone
+## Milestone 1
 
-Implement only `think-before-you-commit` with its own artifact template and bundled references. Before writing any further skills, run SPEC section 11.0 with that skill installed alone, from the project directory: three cases, three runs each on Codex and Claude Code (18 runs). Record reference reads before classification, outcomes, and every intervention. See `evals/README.md`.
+`think-before-you-commit` is implemented with its own artifact template and bundled references. Before writing any further skills, run SPEC section 11.0 with that skill installed alone, from the project directory: three cases, three runs each on Codex and Claude Code (18 runs). Record reference reads before classification, outcomes, and every intervention. See `evals/README.md`.

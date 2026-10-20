@@ -42,9 +42,9 @@ The repository currently provides:
 
 The foundation passed 15 automated tests on Windows using Python 3.12.14.
 
-**No standalone skills have been implemented or behaviorally validated yet.**
+**`think-before-you-commit` is implemented; behavioral validation is blocked in the current environment.**
 
-The next milestone is to implement `think-before-you-commit` and evaluate reference loading across Codex and Claude Code.
+Milestone 1 adds the planning template, bundled references, isolated evaluation fixtures, and structural tests. See [evaluation results](evals/results.md); Milestone 1 is not complete.
 
 ## Planned Skills
 
