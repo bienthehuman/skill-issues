@@ -1,5 +1,7 @@
 # Milestone 1 results — 2026-10-20
 
+**Latest native Windows evidence:** see [Windows report](windows-20261020/REPORT.md). The historical WSL results below are retained. The corrected Codex behavioral matrix passed; complete instruction isolation and cross-agent validation remain unestablished.
+
 ## Automated checks
 
 Passed: all 15 foundation tests and 2 new structural tests on WSL Python 3.12.3.

@@ -24,6 +24,9 @@ def prepare(destination, agent, case):
         "resources/js/hooks/useOrder.ts": "import { useEffect, useState } from 'react';\nexport type Order = { id: number; customer_name: string };\nexport function useOrder(id: number) {\n const [name, setName] = useState('');\n useEffect(() => { fetch(`/api/orders/${id}`).then(r => r.json()).then(r => setName(r.data.customer_name)); }, [id]);\n return name;\n}\n",
         "FIXTURE.md": "Closed-world static inspection fixture, not a runnable Laravel installation. All application sources are included. No generated API types, external consumers, database writes, jobs, caches, settings, CLI, auth, log/metric consumers or import/export formats exist in this fixture. Do not install dependencies.\n",
     }
+    if case == "B":
+        files["app/Http/Controllers/OrderController.php"] = "<?php\nclass OrderController {\n public function __construct(private OrderPresentationService $presenter) {}\n public function show(Order $order) {\n  $resource = new OrderResource($order);\n  return $resource->response()->setStatusCode(200);\n }\n}\n"
+        files["app/Services/OrderPresentationService.php"] = "<?php\nclass OrderPresentationService {\n public function present(Order $order): OrderResource {\n  return new OrderResource($order);\n }\n}\n"
     for name, content in files.items():
         path = destination / name
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -37,7 +40,7 @@ def prepare(destination, agent, case):
         (installed / "references/interface-check.md").unlink()
     approach = ("Rename the OrderResource response field customer_name to customerName and update its React consumer in the same change."
                 if case in ("A", "C") else
-                "Delegate OrderResource construction from OrderController::show to a new OrderPresentationService across the controller/service boundary. Keep the API resource, validation rules, response shape, error format and status code unchanged.")
+                "Delegate OrderResource construction from OrderController::show to the existing injected OrderPresentationService::present method across the controller/service boundary. Keep all existing public signatures and injection wiring, the API resource, validation rules, response shape, error format and status code unchanged.")
     prompt = ("Use $think-before-you-commit. The approach is settled: " + approach +
               " Inspect this fixture and produce the Implementation Plan only. Do not implement it.")
     (destination / "prompt.txt").write_text(prompt + "\n", encoding="utf-8")

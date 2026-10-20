@@ -1,5 +1,9 @@
 # Milestone 1 integration evaluation
 
+For the executed native Windows workflow, full evidence, configuration controls,
+fixture correction and isolation limits, see [Windows report](windows-20261020/REPORT.md).
+The capture runner is `windows_capture.py`; use a fresh run ID for every invocation.
+
 Structural tests and behavioral evaluations are separate. See `results.md` for
 actual outcomes. Do not infer a behavioral pass from the test suite.
 
@@ -13,7 +17,7 @@ not a runnable Laravel app; this limits the evaluation to planning and inspectio
 The manifest records hashes of fixture and installed skill files.
 
 A: rename customer_name in OrderResource to customerName and update the React hook.
-B: delegate resource construction to a service, preserving HTTP semantics. This
+B: delegate resource construction to an existing injected service and method, preserving all public signatures and HTTP semantics. This
 crosses a module boundary, so planning has a legitimate stakes trigger while
 surface 1 stays unaffected. Collapse is prohibited by that boundary crossing.
 C: A with the disposable bundled Interface Check removed. The canonical source
