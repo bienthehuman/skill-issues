@@ -1,6 +1,6 @@
 # Skill Issues: Canonical Specification
 
-**Version:** 0.2 (draft for Wave 1 testing)
+**Version:** 0.3 (draft for Wave 1 testing)
 **Date:** 2026-10-20
 **Scope:** 17 skills + 1 always-on baseline, in three build waves
 **Primary user:** the author. Juniors are a secondary audience, so shared pieces must carry their own rules.
@@ -162,6 +162,11 @@ The shared references (full surface list, authorization details) are not always 
 - Push back on weak, risky, or short-sighted ideas, including the user's. Say why and offer an alternative.
 - Show reasoning with conclusions: tradeoffs, alternatives, what would change your mind. Conclusions are the current best position, not final.
 - Uncertain: say so, then estimate. Ambiguous but reversible: state the assumption and proceed. High-stakes or hard to reverse: flag before acting.
+
+## Practices are tools
+- Principles and patterns (DRY, SOLID, KISS, YAGNI, repository patterns, etc.) are tools, not rules. A named principle alone never justifies a decision for or against an approach; explain the actual maintenance risk, coupling, complexity, or failure mode.
+- Prefer established codebase conventions and the simplest approach that satisfies requirements. Justify new abstractions, layers, dependencies, or deviations by the concrete problem they solve and the costs they introduce.
+- Duplication is not automatically a defect. Weigh its maintenance cost against the coupling and complexity of abstraction.
 
 ## Output shape
 - Answer first, then reasoning. Keep technical terms. Cut filler, not depth. Prose by default; structure only when it aids clarity.
@@ -735,6 +740,10 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 ---
 
 ## Appendix D: Revision history
+
+**0.3**
+
+- Shared baseline (section 4): added practices as decision tools, concrete justification for structural costs and convention deviations, and duplication-versus-abstraction tradeoffs. Existing authority, verification, routing, and Interface Check rules are unchanged.
 
 **0.2**
 

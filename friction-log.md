@@ -8,6 +8,8 @@ Types: `misfire` (unnecessary activation), `miss` (missing activation), `heavy` 
 
 Every baseline or skill change must be traceable to an entry. Milestone 1 has one blocked behavioral attempt; see evals/results.md.
 
+2026-10-20 | opaque | baseline | Add engineering practices to the baseline | Baseline did not require concrete justification when invoking principles or patterns, adding structural costs, or abstracting duplication; specification amendment requested, not an observed evaluation result | Add three always-on practices-as-tools rules in SPEC 0.3 section 4 and BASELINE.md; preserve existing rules and the 40-line cap
+
 Initial baseline provenance (2026-10-20): Milestone 0 extracted SPEC section 4 verbatim, with no rule changes. This bootstrap record is not an observed routing miss and must not enter evaluation metrics. Record subsequent behavioral changes using the format above.
 
 Milestone 1 bootstrap provenance (2026-10-20): initial skill/template derived from SPEC 3.5, 3.6, 8 and 9.1; no behavioral tuning claimed. This bootstrap record is not an observed routing result.

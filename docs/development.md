@@ -4,7 +4,7 @@ Reusable engineering skills for AI coding agents. Milestone 0 established packag
 
 ## Sources and layout
 
-`SPEC.md` is the canonical v0.2 specification, renamed byte-for-byte from `skill-issues-spec.md`. It takes precedence over derived instructions. `BASELINE.md` is its section 4 instruction block, extracted verbatim (32 lines; maximum 40). The references in `shared/references/` are the canonical packaging sources derived from sections 6 and 7, with the applicable loading fallback and materially-risky definition. Edit shared references here, never in bundles.
+`SPEC.md` is the canonical v0.3 specification, originally renamed byte-for-byte from `skill-issues-spec.md` at v0.2 and subsequently amended through its revision history. It takes precedence over derived instructions. `BASELINE.md` is its section 4 instruction block, extracted verbatim (37 lines; maximum 40). The references in `shared/references/` are the canonical packaging sources derived from sections 6 and 7, with the applicable loading fallback and materially-risky definition. Edit shared references here, never in bundles.
 
 Skills live at `skills/<name>/SKILL.md`, with bundled references and their own artifact templates in `references/`. The loading map in `scripts/reference_tools.py` implements SPEC section 3.6 and is tested against that table. It includes later-wave names only as packaging metadata; no later-wave implementation is supplied. Other skills receive no shared references.
 
@@ -26,7 +26,7 @@ The repository now contains one skill. Reference checks validate its bundled cop
 
 ## Editing and synchronization
 
-1. Change requirements explicitly in `SPEC.md` before changing their meaning elsewhere. The original v0.2 hash in the foundation test is a provenance guard; update it deliberately if the specification is amended.
+1. Change requirements explicitly in `SPEC.md` before changing their meaning elsewhere. The specification hash in the foundation test is a provenance guard; update it deliberately if the specification is amended.
 2. Keep `BASELINE.md` consistent with section 4, within 40 lines, and free of file paths. Log baseline or skill changes using Appendix B's format.
 3. Edit canonical references in `shared/references/`, preserving the specification's requirements. If section 6 or 7 changes, update its derived reference too; the source-section tests detect omission or alteration of those sections.
 4. Run `sync-references`. It creates missing required bundles but refuses divergent or unexpected shared references. It validates all copies before writing any; a validation conflict leaves every bundle unchanged.
