@@ -1,5 +1,7 @@
 # Friction log
 
+Prove-it bootstrap provenance (2026-10-21): skill and Test Set template derived from SPEC 3.5–3.6, 5, 8, 9.1 and 10. Standalone packaging/structural validation only; comprehensive behavioral evaluation deferred by the author until portfolio development. This is not an observed behavioral result or routing metric. Follow-up maintenance: README.md and docs/development.md contain stale implementation counts and milestone/version wording; left unchanged in this implementation scope.
+
 Source: SPEC Appendix B. One line per entry:
 
 `date | type | skill | prompt | what happened | proposed change`
