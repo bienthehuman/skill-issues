@@ -1,6 +1,6 @@
 # Authority and authorization
 
-Source: specification v0.2, section 7 and the section 3.6 fallback. Section numbers below refer to the specification. This is the canonical packaging reference.
+Source: specification v0.8, section 7 and the section 3.6 fallback. Section numbers below refer to the specification. This is the canonical packaging reference.
 
 ## Loading fallback (section 3.6)
 
@@ -26,6 +26,8 @@ If this reference cannot be read, the skill falls back to the inline Authority r
 
 ### 7.3 Restricted actions (the floor)
 
+**Infrastructure and data**
+
 - Production or shared-environment migrations
 - Destructive data operations (drop, truncate, bulk delete, bulk update without a verified backup path)
 - Force-push or history rewrite on shared branches
@@ -33,6 +35,24 @@ If this reference cannot be read, the skill falls back to the inline Authority r
 - Deleting shared branches or tags
 - Flushing queues or caches that hold live state
 - Merging into protected branches
+- Destructive operations that could discard uncommitted, untracked (including ignored), or unpushed work: whole-file replacement destroying existing edits, bulk path overwrite, destructive Git operations, or file/directory deletion destroying nonrecoverable work, unless the affected work is demonstrably disposable and recoverable as defined below. Ordinary scoped edits that preserve existing work are allowed.
+
+**External effects**
+
+- Publishing packages or other public artifacts
+- Rotating, revoking, or exposing real credentials
+- Sending real external messages or notifications
+- Mutating external systems using real credentials
+- Executing consequential paid API operations
+- Other external effects that are difficult to reverse or may affect third parties
+
+Preparing code for these actions is not performing them. Ordinary local implementation, mocked/local API tests, and authorized low-risk read-only API requests are not restricted by themselves. A dry run that sends messages, incurs consequential charges, or mutates a real system is execution. Real credentials alone do not make a read-only request restricted; consider its actual effects. Host permissions still apply, and this text does not technically enforce them.
+
+**Inspect before destructive cleanup.** Establish the exact paths/work/ref targets and actual content at risk before destructive replacement, bulk overwrite, Git operations, or deletion. Inspect relevant working-tree changes, untracked/ignored contents and unpushed commits. Ordinary edits within approved scope may preserve and extend uncommitted changes without extra authorization; the restriction concerns discarding work, not editing an already-dirty file. A clean tracked diff does not establish safety for untracked files or unpushed commits. Do not infer disposability from a filename, generated/ignored status, or the command being local. Unknown provenance, unique inputs, or an unverified recovery path means the destructive loss is restricted and must be disclosed before requesting a go-ahead.
+
+**Recoverable content.** Recoverable means the actual content at risk is demonstrably preserved in a commit or stash, or reproducibly regenerable from tracked sources. An older committed version of a tracked file does not preserve later uncommitted changes. Inspect a stash's actual contents, including whether it contains the untracked files at risk; do not assume a default stash includes them. A commit/stash that a destructive operation itself removes from demonstrated recovery does not establish safety for that operation.
+
+**Narrow local-cleanup exception.** No additional restricted-execution authorization is needed solely for removing local work when inspection establishes both that the exact contents are disposable within the task and recoverable under the definition above. Inspected generated output reproducible from tracked sources and a demonstrated regeneration path may qualify; a generated/ignored filename, earlier Git version, or unverified stash does not. This exception waives only the local work-loss restriction, never another restricted category. Ordinary scoped edits and cleanup of demonstrably disposable generated artifacts remain allowed without additional authorization.
 
 Teams may extend this list. They may not shorten it.
 
@@ -43,7 +63,7 @@ A valid go-ahead is:
 1. **Explicit.** It names the action. "Looks good" on a plan is not one.
 2. **Specific.** It names the target and environment (for example "run migration `2026_10_20_add_channel` on production `orders_db`").
 3. **Current.** It was given in this session, after the plan and after any change in the plan. A go-ahead recorded in a handoff is history, not authority. It does not carry into a new session.
-4. **Single-use.** It does not extend to the next restricted action.
+4. **Single-use.** It does not extend to the next restricted action or a retry; a repeated execution needs a new go-ahead.
 5. **Human-originated.** Only the user's own messages count.
 
 ### 7.5 What the agent does before asking

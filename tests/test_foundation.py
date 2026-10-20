@@ -53,28 +53,30 @@ class FoundationTests(unittest.TestCase):
         raw = (ROOT / "SPEC.md").read_bytes()
         baseline = raw.split(b"## 4. Shared baseline", 1)[1].split(b"```markdown\n", 1)[1].split(b"```", 1)[0]
         self.assertEqual((ROOT / "BASELINE.md").read_bytes(), baseline)
-        self.assertLessEqual(len(baseline.splitlines()), 40)
+        self.assertLessEqual(sum(bool(line.strip()) for line in baseline.splitlines()), 40)
 
     def test_scope_and_completion_requirements(self):
         baseline = (ROOT / "BASELINE.md").read_text(encoding="utf-8")
         for requirement in (
-            "## Scope and completion", "Change only what the task requires",
-            "No unrelated cleanup, formatting, or refactoring",
-            "only after checking nothing else uses it", "Leave pre-existing issues alone",
-            "report consequential correctness, security, or data-loss issues separately",
-            "multi-step work or any stakes trigger", "observable success criteria first",
-            "pair each step with a verification method", "one-line done-when",
-            "does not activate additional skills or change their boundaries",
-            "execute relevant checks where possible",
-            "Code inspection alone does not establish runtime correctness",
-            "Report failed, blocked, and unrun checks",
-            "without naming supporting evidence or a check",
-            "mark unsupported conclusions `assumed` or `unknown`",
-            "Upstream artifacts are claims, not proof",
-            "Artifacts with a shared origin count as one source",
+            "## Scope and completion", "Change only what the task requires; no unrelated edits",
+            "Remove newly obsolete code only after checking consumers",
+            "Leave pre-existing issues", "correctness, security, or data-loss issues separately",
+            "observable success criteria first", "multi-step or triggered work needs per-step verification",
+            "one-line done-when", "Execute relevant checks where possible",
+            "Inspection alone cannot prove runtime correctness", "failed, blocked, and unrun checks",
+            "name the evidence for verified outcomes", "Independently re-derive load-bearing upstream",
+            "Shared-origin artifacts count as one source",
         ):
             with self.subTest(requirement=requirement):
                 self.assertIn(requirement, baseline)
+
+    def test_installer_counts_nonempty_lines_and_requires_final_newline(self):
+        readable = b"\n".join([b"rule\n"] * 40)
+        self.assertGreater(len(readable.splitlines()), 40)
+        self.assertIn(readable, installer.proposed_content(b"", readable))
+        for invalid in (readable + b"extra\n", b"rule"):
+            with self.subTest(invalid=invalid[:20]), self.assertRaises(ValueError):
+                installer.proposed_content(b"", invalid)
 
     def test_reference_source_sections_preserved(self):
         source = (ROOT / "SPEC.md").read_text(encoding="utf-8")

@@ -20,7 +20,10 @@ def hashes(folder):
 
 
 def capture(run_id, case, output_root, prepare_run=prepare,
-            expected_skills=('think-before-you-commit',)):
+            expected_skills=('think-before-you-commit',), baseline_path=None,
+            sandbox='read-only', model=None, reasoning_effort=None,
+            evaluation_scope=None):
+    baseline_path = Path(baseline_path) if baseline_path is not None else ROOT / 'BASELINE.md'
     output = output_root.resolve() / run_id
     output.mkdir(parents=True, exist_ok=False)
     project = Path(tempfile.gettempdir()) / 'skill-issues-m1-windows-20261020' / run_id
@@ -28,9 +31,14 @@ def capture(run_id, case, output_root, prepare_run=prepare,
     # Suppress project discovery, then inject precisely the canonical baseline.
     # Global AGENTS.md survives this CLI setting; retain this isolation limitation.
     # The fixture still contains its independently installed AGENTS.md for audit.
+    instructions = baseline_path.read_text(encoding='utf-8')
+    if evaluation_scope is not None:
+        instructions += '\n\nEvaluation access boundary (not a baseline rule):\n' + evaluation_scope
     config = ['windows.sandbox="elevated"', 'project_doc_max_bytes=0',
-              'developer_instructions=' + json.dumps((ROOT / 'BASELINE.md').read_text(encoding='utf-8')),
+              'developer_instructions=' + json.dumps(instructions),
               'tool_output_token_limit=20000', 'web_search="disabled"']
+    if reasoning_effort is not None:
+        config.append('model_reasoning_effort=' + json.dumps(reasoning_effort))
     user_config = Path.home() / '.codex/config.toml'
     cfg = tomllib.loads(user_config.read_text(encoding='utf-8')) if user_config.exists() else {}
     for name in cfg.get('mcp_servers', {}):
@@ -44,7 +52,9 @@ def capture(run_id, case, output_root, prepare_run=prepare,
         if base.exists():
             disabled.extend(sorted({p.as_posix() for p in base.rglob('SKILL.md')}))
     config.append('skills.config=[' + ','.join('{path=' + json.dumps(p) + ',enabled=false}' for p in disabled) + ']')
-    common = [CODEX, '--enable', 'skip_host_skill_discovery', '--disable', 'plugins', '-a', 'never', '-s', 'read-only', '-C', str(project)]
+    common = [CODEX, '--enable', 'skip_host_skill_discovery', '--disable', 'plugins', '-a', 'never', '-s', sandbox, '-C', str(project)]
+    if model is not None:
+        common.extend(['--model', model])
     for value in config:
         common.extend(['-c', value])
     prompt = (project / 'prompt.txt').read_text(encoding='utf-8')
@@ -54,9 +64,13 @@ def capture(run_id, case, output_root, prepare_run=prepare,
                       for name in ('SPEC.md', 'BASELINE.md')})
     version = subprocess.check_output([CODEX, '--version'], text=True).strip()
     metadata = {'run_id': run_id, 'case': case, 'agent': 'codex', 'version': version,
-                'cwd': str(project), 'sandbox': 'read-only', 'windows_backend': 'elevated',
+                'cwd': str(project), 'sandbox': sandbox, 'windows_backend': 'elevated',
+                'model_requested': model, 'reasoning_effort_requested': reasoning_effort,
+                'evaluation_scope': evaluation_scope,
                 'approval': 'never', 'prompt': prompt, 'disabled_skill_paths': disabled,
                 'baseline_delivery': 'developer_instructions; project_doc_max_bytes=0',
+                'baseline_path': str(baseline_path.resolve()),
+                'baseline_sha256': hashlib.sha256(baseline_path.read_bytes()).hexdigest(),
                 'fixture_before': before, 'canonical_before': canonical, 'human_prompts': 0}
     # Debug uses the same overrides, but lacks exec's ignore-user-config switch.
     # Review this inventory before treating it as evidence of an isolated run.

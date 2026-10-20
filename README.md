@@ -131,6 +131,12 @@ The installer preserves existing instructions outside its managed block and refu
 
 To refresh an existing installation, use the same preview command, review the diff, then rerun with `--apply`. An intact managed block is replaced only after its recorded digest is validated; edited or malformed blocks require manual review. Do not overwrite `AGENTS.md` or `CLAUDE.md` directly. Start a new agent session afterward; installation alone does not prove runtime loading.
 
+The installer targets project instructions only; it does not refresh global instruction files. Skill Issues follows the host's instruction hierarchy and compatible project conventions, without overriding higher-priority instructions or technically enforcing permissions. For SPEC 0.5, also refresh installed copies of the two implemented skills from the reviewed repository folders (including their bundled references) using your existing skill installation process. Reference synchronization updates repository bundles, not installed copies. Unavailable skills must be disclosed; their workflows must not be invented or reported complete.
+
+SPEC 0.6 compresses the baseline; it does not change installed skill workflows or references. Refresh an existing managed baseline using the same preview-first command above. The size budget is 40 non-empty lines, a 600–700-token target and a provisional 900-token ceiling. Run `python scripts/check-baseline`: with `tiktoken` available it measures `o200k_base`; otherwise it clearly reports a character-based estimate and unknown ceiling compliance. Tokenizer/cache availability is separate from installation, which needs no tokenizer dependency. The exact target-agent tokenizer may differ. See [compression audit](baseline-compression-audit.md) for measurements, preservation checks and behavioral limits.
+
+SPEC 0.7 reconciles the supplied wording, restores partner behavior/routing, and protects uncommitted, untracked and unpushed work. Its 1,110 measured tokens intentionally exceed the provisional ceiling; SPEC section 4 records the safeguard-preserving exception. Refresh the managed baseline preview-first and refresh installed copies of the two implemented skills' authorization references from their synchronized repository bundles. No skill workflow changed. See [reconciliation report](baseline-reconciliation-report.md); freeze further baseline edits until a real behavioral failure or consequential new requirement warrants them.
+
 Installing the baseline does not install any of the planned skills.
 
 ## How It Works

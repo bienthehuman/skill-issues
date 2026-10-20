@@ -2,4 +2,16 @@ __pycache__/
 *.py[cod]
 evals/windows-*/
 evals/contract-runs/
+evals/baseline-runs/
 /evals/contract-evidence/
+
+# Local audit reports and experimental evaluation runners
+/baseline-reliability-audit.md
+/baseline-compression-audit.md
+/baseline-reconciliation-report.md
+/baseline-corrections-validation.md
+/evals/baseline_reliability.py
+/evals/baseline_compression.py
+/evals/baseline_reconciliation.py
+/evals/baseline_actions.py
+/.local/

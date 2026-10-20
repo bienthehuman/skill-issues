@@ -1,6 +1,6 @@
 # Interface Check
 
-Source: specification v0.2, sections 6, 3.6, and 9.1.1. Section numbers below refer to the specification. This is the canonical packaging reference.
+Source: specification v0.5, sections 6, 3.6, and 9.1.1. Section numbers below refer to the specification. This is the canonical packaging reference.
 
 ## Loading requirement (section 3.6)
 
@@ -14,7 +14,7 @@ A skill that needs a shared reference puts a directive immediately before the st
 
 The Interface Check establishes whether a **contract** might change. It does not establish whether code associated with a contract was touched. Editing a controller does not necessarily change an API contract, and altering a table does not necessarily affect any consumer. The check asks: could anything that relies on this surface now behave differently?
 
-It is required in **plans** (think-before-you-commit), **reviews** (trust-issues, run against the diff), and **refactor plans** (same-same-but-different). It is triggered by stakes trigger 2. This section is the source text for `interface-check.md` (section 3.6).
+It is required in **plans** (think-before-you-commit), **reviews** (trust-issues, run against the diff), and **refactor plans** (same-same-but-different). A potential interface contract change (stakes trigger 2) requires checking the relevant contracts; read-the-contract investigates flagged or explicitly scoped concerns, without automatically repeating the full planning scan. Baseline-only reference providers and missing-reference behavior are defined in section 3.6; missing skills use section 3.3's disclosed partial-work fallback. The stricter collapse conditions below do not themselves activate a skill. This section is the source text for `interface-check.md` (section 3.6).
 
 ### 6.2 The nine surfaces
 
