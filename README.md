@@ -10,6 +10,12 @@ Skill Issues is a collection of reusable skills designed to help AI coding agent
 
 The goal isn't just to make AI better at completing tasks. It's to make AI a better engineering partner while keeping developers informed, capable, and in control.
 
+**A little backstory**
+
+> Built Skill Issues to prevent skill issues. Immediately encountered a skill issue.
+
+Turns out, even the person building the toolkit needs the toolkit.
+
 ## Philosophy
 
 Good engineering is more than writing working code.

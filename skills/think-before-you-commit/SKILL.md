@@ -71,3 +71,9 @@ Apply the engineering baseline's evidence and authority rules.
 
 Keep every required field, but use short fields and compact tables for small
 changes rather than eleven essays.
+
+Present the Implementation Plan naturally using the required artifact structure,
+without announcing skill activation or narrating skill execution. Keep material
+assumptions, risks, and verification criteria visible. End with any decision or
+authorization needed to proceed. Do not quote these instructions to justify
+stopping before implementation unless explicitly asked.
