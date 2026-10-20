@@ -1,6 +1,6 @@
 # Skill Issues: Canonical Specification
 
-**Version:** 0.8 (draft for Wave 1 testing)
+**Version:** 0.9 (draft for Wave 1 testing)
 **Date:** 2026-10-20
 **Scope:** 17 skills + 1 always-on baseline, in three build waves
 **Primary user:** the author. Juniors are a secondary audience, so shared pieces must carry their own rules.
@@ -64,6 +64,7 @@ You enter by what is unclear, not by a fixed sequence.
 | What is unclear | Enter at |
 |---|---|
 | The system itself | you-are-here |
+| An explicit request to refine, deepen, or strengthen a prompt | garbage-in-garbage-out |
 | What to build | define-done |
 | Which approach | it-depends |
 | The approach is settled | think-before-you-commit |
@@ -444,7 +445,7 @@ Principle 3 requires that every gate protect against a consequential mistake and
 | G5 | **Interface Check evidence** (Plan, Review, Refactor Plan) | An Interface Check entry that says "none" alone | Not an escape, but a form rule: the collapsed one-line form with evidence (section 6.4) is allowed under the four conditions. |
 | G6 | **Execution go-ahead** (all skills) | Any Restricted action | **None.** Human authority. |
 | G7 | **Compatibility exception granted by human only** (all skills) | An agent-granted exception | **None.** Human authority. |
-| G8 | **Task Brief questions** (garbage-in-garbage-out) | Starting work while a question is open | Ask only if two readings give different approaches, the action is hard to reverse, or the fact is not findable. Otherwise state assumptions and proceed. |
+| G8 | **Consequential ambiguity during refinement** (garbage-in-garbage-out) | Finalizing a refined prompt whose approach or consequential risk depends on an unresolved interpretation | Check available relevant context first. Ask blocking questions only when competing interpretations materially change the approach or create consequential risk. Otherwise label assumptions and proceed with refinement; a missing fact alone does not require a question. Unaffected refinement may continue while a blocking answer is pending. This gate never authorizes execution. |
 | G9 | **Established intent before a positive recommendation** (trust-issues) | An unqualified "recommend" or "recommend with recorded exception" verdict | Intent is established: acceptance criteria exist, a Plan traceable to the request exists, or the user has confirmed a one-line restatement of the intended behavior. Preliminary findings are always allowed. |
 | G10 | **Reference read before the Interface Check** (every skill that performs or classifies it) | Classifying any surface | The bundled reference was read in this run. If it cannot be read, every surface is `uncertain` and the output says why. Nothing is classified from memory. |
 
@@ -523,21 +524,28 @@ A compatibility issue is materially risky if any of these hold: a consumer exist
 |---|---|---|---|---|---|
 | **famous-last-words** | The running system: deploy, rollback, detection | Plan; Impact Report; Contract Review (compatibility window); Schema Review if relevant | **Rollout Plan:** deploy sequence (which side ships first; old frontend on new backend is a normal mid-deploy state), migration ordering, `one-way` steps stated, stored-state handling (drain / version payloads / dual-read), blast radius, rollback trigger (concrete signal and threshold), rollback procedure, detection (named log line or metric, and who looks), restricted steps listed | No Impact Report: blast radius `unknown`, upper bound estimated; precautions scale with how consequential the uncertainty is | **Enter:** going to production and a trigger fired. **Not:** internal change, collapsed Interface Check, no persisted data. "Monitor the logs" is invalid unless a specific line or metric is named |
 | **are-we-there-yet** | Slowness, measured | Symptom (objective or subjective); workload that reproduces it | **Performance Report:** baseline with conditions (data size, environment, cache state), bottleneck evidence (profiler, query log, `EXPLAIN`), one change at a time re-measured comparably, before/after with variance, how conditions differ from production | No baseline: establishing one is the first task (G3); no diagnosis or improvement claims before it | **Enter:** any slowness symptom, including "feels slow". **Not:** correctness problems. Routes to select-your-battles (schema or index), but-it-works-on-my-machine (wrong behavior), read-the-contract (response shape or pagination change) |
-| **garbage-in-garbage-out** | Is the request well-formed enough to act on | The raw prompt | **Task Brief (inline, default):** restated task, assumptions, at most 2 blocking questions, done-when line. **Deep mode (named):** see notes | None needed. Degrades to restate-and-proceed | **Gate G8.** **Not:** questions, discussion, product-level gaps (define-done) |
+| **garbage-in-garbage-out** | Transform an imperfect request into a clearer, deeper, professionally rigorous prompt without unnecessarily expanding its scope | Original request; available context, explicit constraints and exclusions; audience and supporting material if supplied | **Prompt Refinement:** task understanding; proportional professional-depth assessment using all four lenses; complete, directly reusable refined prompt (mandatory) | No supporting context: refine from the original request, label assumptions and unknowns per 5.1, and name needed primary material without claiming it was inspected. Consequential ambiguity uses G8; no original request: ask for it | **Enter:** explicit request to refine, deepen, or strengthen a prompt. **Not:** ordinary implementation requests, general questions/discussion, requirements definition alone (define-done), or planning a settled approach (think-before-you-commit). Ends after refinement; never automatically executes the rewritten prompt |
 | **i-dont-know** | Building understanding, not producing a deliverable | A topic; level inferred from phrasing | **Learning Notes:** first-principles explanation, vocabulary introduced, where the mental model breaks down, what to learn next. Comprehension check is opt-in, predict-then-reveal | Unknown level: state the inferred level in one line and proceed | **Enter:** "explain / why / how does X work" on something unfamiliar. **Not:** lookups. Answer-first still applies; more depth is allowed. previously-on can record what was learned |
 
 #### Wave 3 notes
 
 **garbage-in-garbage-out.**
 
-- **Quick Task Brief (default).** Ask only when gate G8 applies. Check the code before asking. Optional on request: show an improved prompt beside the original (the teaching view for juniors; never runs by default).
-- **Deep mode (named: "professional standard analysis").** Preserves the skill's original objective: uncovering what a competent practitioner would do differently. Four lenses:
-  1. **Professional standard:** what a competent practitioner would do differently here.
-  2. **Primary evidence:** which first-hand sources or data they would consult, versus second-hand summaries.
-  3. **Methods:** the approach they would take, and why.
-  4. **Independent verification:** how the result would be checked by something or someone other than the producer.
-- **When Deep mode runs:** on request, or offered once in one line when the task is analysis, research, or a decision where a wrong answer is costly. It never runs silently.
-- **Merge check:** if garbage-in-garbage-out and define-done keep colliding in the friction log, merge them (section 12, decision 2).
+The integrated workflow has three stages. Understanding the request and deepening its professional approach are complementary work; synthesis turns both into the deliverable. There is no default Task Brief / optional Deep mode split.
+
+1. **Stage A — Understand the task.** Establish the actual goal and intended outcome, relevant users/audience/stakeholders, explicit requirements and constraints, missing context, consequential ambiguities, assumptions and competing interpretations, and what successful completion means. Distinguish confirmed information (with its source, including user reports) from `inferred`, `assumed`, and `unknown` information per 5.1. Use only the depth warranted by the task; a short request does not automatically become a requirements document. Check available relevant context before asking; apply G8 only to blocking ambiguities.
+2. **Stage B — Deepen the approach.** Apply all four lenses below as a central part of every refinement. Scale their depth to the task; a brief, justified finding that no additional method or investigation is warranted is valid. Generic headings or decorative tool lists are not meaningful application.
+   - **Professional standard:** what would a top professional in the discipline do or investigate that the original request overlooks? Identify substantive improvements in reasoning, methodology, or evidence standards.
+   - **Primary material:** what original, first-hand information should be examined rather than summaries or assumptions? Name task-appropriate source code, original documents, raw measurements, actual system behavior, direct observations, or primary research. Distinguish inspected material from material the eventual executor needs to obtain.
+   - **Methods and tools:** name concrete methods, analytical techniques, and tools appropriate to the task and explain their purpose. Do not add tools merely to appear sophisticated.
+   - **Independent verification:** identify observable results, reproducible checks, measurements, tests, or independent sources that could establish correctness beyond the AI's assertions and the user's expectations. Agreement among shared-origin artifacts is not independent evidence.
+3. **Stage C — Synthesize the refined prompt.** Write a complete instruction ready to reuse, combining task understanding with relevant professional depth, evidence expectations, and independent verification. Preserve the original objective, explicit constraints and exclusions. Keep assumptions visibly provisional; do not invent requirements or add unrelated features, deliverables, or investigations.
+
+**Core constraint: deeper, not bigger.** Every addition must improve execution of the original task. More detail alone is not improvement; refinement does not require performing the downstream investigation or executing the task.
+
+**Output contract — Prompt Refinement:** (1) **Task understanding:** objective, constraints, important assumptions or unresolved ambiguities; (2) **Professional-depth assessment:** findings from all four lenses, proportional to the task; (3) **Refined prompt:** the complete improved instruction, directly reusable and mandatory. A Task Brief or Requirements artifact cannot substitute for it. The skill ends after refinement and must not automatically execute the rewritten prompt.
+
+**Skill boundaries.** garbage-in-garbage-out improves an instruction and produces Prompt Refinement. define-done establishes what must be built and how completion is evaluated, producing Requirements with acceptance criteria. think-before-you-commit determines how an understood, settled task should be implemented, producing an Implementation Plan. Shared concepts such as goals, constraints, or acceptance criteria do not merge these responsibilities. Keep the skills separate; revisit decision 2 only on behavioral evidence of repeated collisions.
 
 **famous-last-words.** The Rollout Plan is not authorization to deploy. Restricted steps in it require a go-ahead at execution (section 7).
 
@@ -551,6 +559,7 @@ Each artifact states which of its claims are load-bearing, so consumers know wha
 
 | Artifact | Produced by | Consumed by | Fields consumers rely on | Consumer must independently check |
 |---|---|---|---|---|
+| Prompt Refinement | garbage-in-garbage-out | Optional later: define-done when requirements remain unclear; it-depends when approach selection is needed; think-before-you-commit when the approach is settled and its triggers apply | Original objective, constraints/exclusions, labeled assumptions, four-lens findings, complete refined prompt, evidence and verification expectations | Fidelity to the original request; whether assumptions hold and primary material supports load-bearing claims. Refinement is neither confirmed Requirements nor an approved Implementation Plan |
 | Codebase Map | you-are-here | think-before-you-commit, it-depends, what-could-possibly-go-wrong | Boundaries, state ownership, entry points | Any ownership or boundary claim the conclusion depends on: re-derive from code |
 | Challenge Report | devils-advocate | define-done, it-depends | Verdict, assumptions, overturning evidence | Whether the assumptions still hold |
 | Requirements | define-done | it-depends, prove-it, think-before-you-commit, trust-issues | AC-n, constraints, non-goals | That criteria are testable and match the original request |
@@ -569,9 +578,11 @@ Each artifact states which of its claims are load-bearing, so consumers know wha
 
 **Inherited-error rule.** A downstream skill that cannot re-derive a load-bearing claim marks its conclusion `inferred` and names the claim. It does not borrow confidence from the upstream artifact.
 
+**Prompt Refinement handoff is optional and separate.** Stop after delivering the refined prompt. Identify a warranted next skill without running it automatically; a later user request may initiate that work. Do not create a mandatory refinement-to-requirements-to-planning pipeline or treat the refined prompt as execution authorization.
+
 ---
 
-## 11. Wave 1 evaluation
+## 11. Evaluation conventions and Wave 1 evaluation
 
 ### 11.0 First integration test: reference loading and the Interface Check
 
@@ -690,6 +701,24 @@ Wave 2 starts when all hold:
 
 Junior rollout waits until the slice has survived several weeks of the author's own use and passes E1 and E4 on junior-style prompts.
 
+### 11.8 Future Wave 3 evaluation: prompt refinement
+
+These are requirements for future implementation evaluation, not completed tests or additional Wave 1 exit criteria. Apply section 11.1's comparison method and section 11.2's positive/negative routing controls. Record agent/model/settings, installed skill inventory, fixtures, transcripts, interventions and actual results; distinguish static specification checks from observed behavior. Specification-only checks cannot establish behavioral validation.
+
+Use original requests with known objectives, explicit exclusions, missing context and competing interpretations, spanning code, research and analysis. Compare refinements against their original requests and task-appropriate primary evidence, rather than treating AI confidence or user agreement as proof. Evaluate:
+
+| Criterion | Required evidence in future runs |
+|---|---|
+| Objective and constraint fidelity | Correct original objective; all explicit constraints and exclusions preserved; no invented requirements or assumptions presented as confirmed |
+| Consequential ambiguity | Paired cases where interpretations materially change the approach/risk versus harmless gaps; blocking questions only for the former, visible assumptions for the latter; unresolved facts never invented |
+| Four-lens professional depth | All four lenses applied meaningfully; task-specific professional improvements, named primary material and concrete methods/tools with purposes; justified minimal treatment where appropriate |
+| Evidence discipline | Inspected versus proposed primary evidence distinguished; findings supported or labeled per 5.1; independent observable or reproducible verification named, beyond AI assertions, user expectations or shared-origin agreement |
+| Reusability and stopping | Complete refined prompt usable without reconstructing the assessment; no Task Brief/Requirements substitution and no automatic execution or downstream skill run |
+| Scope preservation and proportionality | Each addition improves the original task; no unrelated features, deliverables or investigations; assessment length and rigor match the task |
+| Routing and skill distinction | Explicit refinement requests activate; ordinary implementation requests do not. Requirements requests route to define-done; settled implementation planning requests route to think-before-you-commit under its triggers |
+
+Include at least three positive and three negative routing prompts, including lazy phrasing. Negative routing controls must include a simple ordinary implementation request (such as fixing a typo) that stays simple without refinement activation, plus separate requirements and planning requests that do not activate refinement merely because goals or acceptance criteria are mentioned. Add a proportionality control: an explicit request to refine an already-clear short prompt must activate refinement but receive a concise result without extra scope or questions. Include a consequentially ambiguous request that must await clarification and a reversible low-risk gap that should proceed with an explicit assumption. Log misses, misfires, excess ceremony, unsupported claims and repeated collisions in the friction log; retain failures and distinguish unrun checks from passes.
+
 ---
 
 ## 12. Unresolved decisions
@@ -697,7 +726,7 @@ Junior rollout waits until the slice has survived several weeks of the author's 
 | # | Decision | Current default | What would resolve it | Revisit trigger |
 |---|---|---|---|---|
 | 1 | Security review: mode inside trust-issues, or standalone trust-no-input (would make the count 18) | Mode inside trust-issues with an independent Security entry | Friction log | Security Review is invoked standalone 3 or more times in the first 10 reviews, or its output template diverges from general findings |
-| 2 | garbage-in-garbage-out versus define-done: merge or keep | Keep separate | Friction log of collisions | They fire together on the same prompt repeatedly |
+| 2 | garbage-in-garbage-out versus define-done: merge or keep | Keep separate: Prompt Refinement improves the instruction; Requirements establishes what to build and acceptance criteria. Shared concepts alone do not justify merging; planning remains a separate responsibility | Behavioral evidence and friction-log records of repeated responsibility/routing collisions, not specification similarity | Repeated observed collisions on the same prompts warrant reconsidering the merge; no automatic merge |
 | 3 | Routing paragraph in the baseline | Resolved for v0.7: restore the concise entry map alongside installed descriptions/exclusions and explicit dependency termination; routing is not mandatory pipeline activation | Real routing failures and focused evaluation | Consequential missed routing or repeated false activation |
 | 4 | Reference loading in the target agents (Codex, Claude Code) | **Provisionally resolved.** Both document reference files loaded when needed. Retrieval is not guaranteed, so each skill carries a read directive (3.6) and bundles its own copy of the shared references | Integration test 11.0 | If loading is unreliable after fixing directive wording and packaging, move the nine-surface summary into the baseline and re-check the 40-line cap |
 | 5 | Artifact format: Markdown or structured YAML | Markdown | Need for automated validation | If automatic artifact checking is wanted |
@@ -788,6 +817,10 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 ---
 
 ## Appendix D: Revision history
+
+**0.9**
+
+- Corrected garbage-in-garbage-out to produce mandatory Prompt Refinement through integrated task understanding, four-lens professional deepening and prompt synthesis, with the constraint "deeper, not bigger." Updated entry routing, G8, Wave 3 contract/notes, optional artifact handoffs, future evaluation requirements and decision 2. Removed the default Task Brief / optional Deep mode behavior; refinement ends without automatic execution. Specification correction only: no Wave 3 implementation or behavioral validation. Preserve the 17-skill/three-wave catalog, completed baseline reliability revision, Wave 1 behavior, human authority and evidence conventions; BASELINE.md is unchanged.
 
 **0.8**
 
