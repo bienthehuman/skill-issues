@@ -19,11 +19,12 @@ def hashes(folder):
             for p in folder.rglob('*') if p.is_file() and '__pycache__' not in p.parts}
 
 
-def capture(run_id, case, output_root):
+def capture(run_id, case, output_root, prepare_run=prepare,
+            expected_skills=('think-before-you-commit',)):
     output = output_root.resolve() / run_id
     output.mkdir(parents=True, exist_ok=False)
     project = Path(tempfile.gettempdir()) / 'skill-issues-m1-windows-20261020' / run_id
-    prepare(project, 'codex', case)
+    prepare_run(project, 'codex', case)
     # Suppress project discovery, then inject precisely the canonical baseline.
     # Global AGENTS.md survives this CLI setting; retain this isolation limitation.
     # The fixture still contains its independently installed AGENTS.md for audit.
@@ -68,10 +69,13 @@ def capture(run_id, case, output_root):
     catalogs = [t.split('### Available skills', 1)[1] for t in texts if '<skills_instructions>' in t and '### Available skills' in t]
     available = [line for catalog in catalogs for line in catalog.splitlines() if line.startswith('- ')]
     metadata['available_skills'] = available
-    metadata['single_skill_inventory'] = len(available) == 1 and available[0].startswith('- think-before-you-commit:')
+    metadata['expected_skills'] = list(expected_skills)
+    metadata['single_skill_inventory'] = (len(available) == len(expected_skills) and
+        all(any(line.startswith('- ' + name + ':') for line in available)
+            for name in expected_skills))
     metadata['global_instructions_present'] = any(t.startswith('# AGENTS.md instructions') for t in texts)
     if not metadata['single_skill_inventory']:
-        metadata['result'] = 'blocked: single-skill inventory not established'
+        metadata['result'] = 'blocked: expected skill inventory not established'
         (output / 'run.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
         raise RuntimeError(metadata['result'])
     (output / 'manifest.json').write_bytes((project / 'manifest.json').read_bytes())

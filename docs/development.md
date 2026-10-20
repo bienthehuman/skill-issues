@@ -22,7 +22,7 @@ python -m unittest discover -s tests -v
 
 Scripts locate their repository from their own file location, so absolute script paths work from another working directory. The reference scripts also accept `--root <repository>` for isolated fixtures. Invoke extensionless scripts through Python on Windows and Unix; executable permission is not required.
 
-The repository now contains one skill. Reference checks validate its bundled copies. The automated tests create temporary skill fixtures to exercise actual copying, drift, and failure cases. Fixtures are not implemented skills.
+The repository contains `think-before-you-commit` and `read-the-contract`. Reference checks validate their bundled copies. The automated tests create temporary skill fixtures to exercise actual copying, drift, and failure cases. Fixtures are not implemented skills.
 
 ## Editing and synchronization
 
@@ -63,3 +63,9 @@ In a disposable project, install for each agent independently. Start the agent t
 ## Milestone 1
 
 `think-before-you-commit` is implemented with its own artifact template and bundled references. Before writing any further skills, run SPEC section 11.0 with that skill installed alone, from the project directory: three cases, three runs each on Codex and Claude Code (18 runs). Record reference reads before classification, outcomes, and every intervention. See `evals/README.md`.
+
+Author-authorized development allowance (2026-10-20): Wave 1 may continue after
+successful Codex-only validation. Claude Code and complete instruction isolation
+remain outstanding; this does not establish full cross-agent compatibility or
+amend the baseline. For the standalone-before-integration contract evaluation,
+see `evals/contracts-results.md` and `evals/contracts.py`.

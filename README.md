@@ -52,6 +52,11 @@ The foundation passed 15 automated tests on Windows using Python 3.12.14.
 
 Milestone 1 adds the planning template, bundled references, isolated evaluation fixtures, and structural tests. See [evaluation results](evals/results.md); Milestone 1 is not complete.
 
+`read-the-contract` now provides standalone Contract Reviews and scoped planning
+handoffs. Development continues under the author's Codex-only validation allowance;
+Claude Code evaluation and complete instruction isolation remain required before
+claiming full cross-agent compatibility. See [contract evaluation](evals/contracts-results.md).
+
 ## Planned Skills
 
 The collection is organized into three implementation waves.
