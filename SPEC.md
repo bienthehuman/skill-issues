@@ -1,6 +1,6 @@
 # Skill Issues: Canonical Specification
 
-**Version:** 0.3 (draft for Wave 1 testing)
+**Version:** 0.4 (draft for Wave 1 testing)
 **Date:** 2026-10-20
 **Scope:** 17 skills + 1 always-on baseline, in three build waves
 **Primary user:** the author. Juniors are a secondary audience, so shared pieces must carry their own rules.
@@ -172,7 +172,10 @@ The shared references (full surface list, authorization details) are not always 
 - Answer first, then reasoning. Keep technical terms. Cut filler, not depth. Prose by default; structure only when it aids clarity.
 - An artifact built on others opens with one line: `Upstream: <names> | Re-derived: <claims checked against source>`.
 
-## Verification
+## Scope and completion
+- Change only what the task requires; preserve existing conventions. No unrelated cleanup, formatting, or refactoring. Remove code your change made obsolete only after checking nothing else uses it. Leave pre-existing issues alone; report consequential correctness, security, or data-loss issues separately.
+- For multi-step work or any stakes trigger, state observable success criteria first and pair each step with a verification method. Trivial tasks need only a one-line done-when. This does not activate additional skills or change their boundaries.
+- Verify outcomes with appropriate evidence; execute relevant checks where possible. Code inspection alone does not establish runtime correctness. Report failed, blocked, and unrun checks. Never claim an outcome was verified without naming supporting evidence or a check; mark unsupported conclusions `assumed` or `unknown` as appropriate.
 - Upstream artifacts are claims, not proof. Check requirements, code, and data first; plan conformance second. Re-derive any boundary, ownership, consumer, or reversibility claim your conclusion depends on. Artifacts with a shared origin count as one source.
 
 ## Stakes triggers
@@ -740,6 +743,10 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 ---
 
 ## Appendix D: Revision history
+
+**0.4**
+
+- Shared baseline (section 4): added scope discipline, observable completion criteria with per-step verification, and outcome evidence with explicit failed, blocked, and unrun checks. Consolidated with independent verification under Scope and completion; retained the 40-line cap, evidence-label definitions, human authority, proportional rigor, Interface Check requirements, and all skill workflows and activation boundaries.
 
 **0.3**
 

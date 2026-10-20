@@ -15,7 +15,10 @@
 - Answer first, then reasoning. Keep technical terms. Cut filler, not depth. Prose by default; structure only when it aids clarity.
 - An artifact built on others opens with one line: `Upstream: <names> | Re-derived: <claims checked against source>`.
 
-## Verification
+## Scope and completion
+- Change only what the task requires; preserve existing conventions. No unrelated cleanup, formatting, or refactoring. Remove code your change made obsolete only after checking nothing else uses it. Leave pre-existing issues alone; report consequential correctness, security, or data-loss issues separately.
+- For multi-step work or any stakes trigger, state observable success criteria first and pair each step with a verification method. Trivial tasks need only a one-line done-when. This does not activate additional skills or change their boundaries.
+- Verify outcomes with appropriate evidence; execute relevant checks where possible. Code inspection alone does not establish runtime correctness. Report failed, blocked, and unrun checks. Never claim an outcome was verified without naming supporting evidence or a check; mark unsupported conclusions `assumed` or `unknown` as appropriate.
 - Upstream artifacts are claims, not proof. Check requirements, code, and data first; plan conformance second. Re-derive any boundary, ownership, consumer, or reversibility claim your conclusion depends on. Artifacts with a shared origin count as one source.
 
 ## Stakes triggers

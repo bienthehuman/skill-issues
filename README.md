@@ -129,6 +129,8 @@ Review the preview before repeating the command with `--apply`.
 
 The installer preserves existing instructions outside its managed block and refuses conflicting or malformed installations.
 
+To refresh an existing installation, use the same preview command, review the diff, then rerun with `--apply`. An intact managed block is replaced only after its recorded digest is validated; edited or malformed blocks require manual review. Do not overwrite `AGENTS.md` or `CLAUDE.md` directly. Start a new agent session afterward; installation alone does not prove runtime loading.
+
 Installing the baseline does not install any of the planned skills.
 
 ## How It Works

@@ -1,6 +1,5 @@
 """Packaging and installer tests, not agent-behavior evaluations."""
 
-import hashlib
 import importlib.machinery
 import importlib.util
 from pathlib import Path
@@ -50,13 +49,32 @@ class FoundationTests(unittest.TestCase):
         return {str(p.relative_to(self.root)): (p.read_bytes(), p.stat().st_mtime_ns)
                 for p in self.root.rglob("*") if p.is_file()}
 
-    def test_spec_preserved_and_baseline_extracted(self):
+    def test_baseline_extracted_within_cap(self):
         raw = (ROOT / "SPEC.md").read_bytes()
-        self.assertEqual(hashlib.sha256(raw).hexdigest(),
-                         "8277561928776454423f078e9b28183b08324653918c20b2e63209a1f304d035")
         baseline = raw.split(b"## 4. Shared baseline", 1)[1].split(b"```markdown\n", 1)[1].split(b"```", 1)[0]
         self.assertEqual((ROOT / "BASELINE.md").read_bytes(), baseline)
         self.assertLessEqual(len(baseline.splitlines()), 40)
+
+    def test_scope_and_completion_requirements(self):
+        baseline = (ROOT / "BASELINE.md").read_text(encoding="utf-8")
+        for requirement in (
+            "## Scope and completion", "Change only what the task requires",
+            "No unrelated cleanup, formatting, or refactoring",
+            "only after checking nothing else uses it", "Leave pre-existing issues alone",
+            "report consequential correctness, security, or data-loss issues separately",
+            "multi-step work or any stakes trigger", "observable success criteria first",
+            "pair each step with a verification method", "one-line done-when",
+            "does not activate additional skills or change their boundaries",
+            "execute relevant checks where possible",
+            "Code inspection alone does not establish runtime correctness",
+            "Report failed, blocked, and unrun checks",
+            "without naming supporting evidence or a check",
+            "mark unsupported conclusions `assumed` or `unknown`",
+            "Upstream artifacts are claims, not proof",
+            "Artifacts with a shared origin count as one source",
+        ):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, baseline)
 
     def test_reference_source_sections_preserved(self):
         source = (ROOT / "SPEC.md").read_text(encoding="utf-8")
