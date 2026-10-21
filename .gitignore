@@ -3,6 +3,7 @@ __pycache__/
 evals/windows-*/
 evals/contract-runs/
 evals/review-runs/
+evals/rollout-runs/
 evals/baseline-runs/
 /evals/contract-evidence/
 
