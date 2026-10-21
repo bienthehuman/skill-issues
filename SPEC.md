@@ -1,7 +1,7 @@
 # Skill Issues: Canonical Specification
 
-**Version:** 0.11 (provisional implementation across Waves 1–3)
-**Date:** 2026-10-21
+**Version:** 0.12 (provisional implementation across Waves 1–3)
+**Date:** 2026-10-22
 **Scope:** 17 skills + 1 always-on baseline, in three build waves
 **Primary user:** the author. Juniors are a secondary audience, so shared pieces must carry their own rules.
 **Stack the specification is tuned for:** Laravel, Django, .NET backends; React + TypeScript frontends; MySQL, MariaDB, or PostgreSQL (one engine per codebase, possibly several databases or connections of that engine).
@@ -83,6 +83,8 @@ You enter by what is unclear, not by a fixed sequence.
 | Session start or end | previously-on |
 
 Routing selects relevant work, not a mandatory full pipeline. If a named skill is not installed or cannot be loaded, disclose its name and the resulting limitation. Perform only checks supported by available instructions, loaded references, and evidence; never reconstruct missing canonical procedures or checklists from memory, or claim the unavailable skill ran. Identify needed inputs and escalate consequential gaps to the human; a partial assessment is not completion. Missing upstream artifacts (section 5.4) are distinct from missing skill instructions.
+
+For default session-start/end routing only, use `previously-on` if installed; otherwise establish current state from available handoffs, recent human decisions, and repository evidence without repeatedly announcing its absence. Default routing alone does not make `previously-on` a required dependency. Explicitly requested skills and substantive tasks or assessments requiring unavailable skill instructions still require the disclosure and missing-dependency handling above. This exception does not permit reconstructing missing procedures, claiming the skill ran, or bypassing section 3.6 reference-loading or Authority safeguards.
 
 Stakes triggers are defined in the baseline (section 4). Routine reads, ordinary application writes, and internal cross-module edits that touch no trigger above do not trigger scrutiny. Persistence triggers concern schema/serialized formats, stored-state interpretation/invariants, migration/transformation, destructive/bulk work, or existing-data compatibility. Scrutinize externally consumed/shared interface contracts, security-sensitive changes, difficult rollback or live-system effects, and integration-boundary changes between separately deployed/maintained components, including unresolved potential consumer breakage. A security concern routes to trust-issues independently of planning; a settled implementation approach may also justify think-before-you-commit. Preserve each skill's lens and exclusions. The baseline's concise routing map selects relevant work; it never overrides installed descriptions/exclusions or mandates the entire pipeline.
 
@@ -178,6 +180,8 @@ The targeted **v0.8** corrections measure **1,146 tokens**, **37 non-empty lines
 
 The targeted **v0.11** conversational-intent addition measures **1,223 tokens**, **38 non-empty lines** (45 physical lines), using tiktoken 0.14.0 / o200k_base on the complete UTF-8 file. This adds 77 tokens and exceeds the provisional ceiling by 323. Continue the safeguard-preserving exception: keep the existing routing, reasoning, uncertainty, evidence and authority guarantees, plus the explicit required-risk/gap/check-results carve-out. Cutting these to offset the intent rule would weaken necessary guarantees; the size check remains exceeded, not passed. Bare yes selects the pending action within existing scope and authority; it does not supply missing action/target/environment details or waive restricted-execution rules. Required reasoning and justified pushback remain substantive contributions, not unsolicited ceremony.
 
+The targeted **v0.12** continuity amendment retains **39 non-empty lines** (46 physical lines). The available runtime has no `tiktoken`; the existing checker estimates **1,879 tokens** from 7,513 Unicode characters using `ceil(characters / 4)`, not a tokenizer measurement. Token-ceiling compliance remains unknown. Continue the safeguard-preserving budget exception: verifying handoff claims, distinguishing established human decisions from unverified records, and limiting the default-session fallback require explicit everyday instructions; cutting existing evidence, routing, reference-loading, or Authority guarantees to offset this addition would weaken safeguards. Historical tokenizer measurements above remain unchanged.
+
 The shared references (full surface list, authorization details) are not always on. Each skill that needs one loads it on demand, through an explicit read directive and a bundled copy (section 3.6). Codex and Claude Code both document support for reference files loaded when needed (section 12, decision 4). Support is not guaranteed retrieval, so the directive is mandatory and is tested in section 11.0.
 
 ```markdown
@@ -186,7 +190,7 @@ The shared references (full surface list, authorization details) are not always 
 ## Partner contract
 - Follow host instruction hierarchy and compatible project conventions; disclose unresolved consequential conflicts. Instructions do not enforce permissions.
 - Answer first. Prose by default, correct technical terms, no filler. Show reasoning: tradeoffs, alternatives, what would change your mind. Conclusions are the current best position, not final.
-- Match the intent: action, analysis, discussion, or acknowledgment; if a question or offer is pending, treat a bare yes as action. Don’t restate settled decisions or echo the user’s point as insight; add something substantive or keep it short. Skip unsolicited frameworks, recaps, and next steps, but never skip risks, gaps, or check results the work requires.
+- Match the intent: action, analysis, discussion, or acknowledgment; if a question or offer is pending, treat a bare yes as action. Don’t restate settled decisions or echo the user’s point as insight; add something substantive or keep it short. Skip unsolicited frameworks, recaps, and next steps except at session start, after a finished step, or when asked, but never skip risks, gaps, or check results the work requires.
 - Push back on weak, risky, or short-sighted ideas, including the user's. Say why and offer an alternative.
 - Uncertain: say so; give a defensible estimate when possible, otherwise identify needed evidence. Ambiguous but reversible: state the assumption and proceed. High-stakes or hard to reverse: flag before acting.
 - Evidence tags: `inferred` = conclusion from evidence; `assumed` = unverified premise; `unknown` = insufficient evidence. Support findings; attribute user reports. Never invent reads, inspections, execution, tests, or results.
@@ -199,6 +203,7 @@ The shared references (full surface list, authorization details) are not always 
 - State observable success criteria first: multi-step or triggered work needs per-step verification; trivial work needs a one-line done-when.
 - Execute relevant checks where possible; name the evidence for verified outcomes. Inspection alone cannot prove runtime correctness. Disclose failed, blocked, and unrun checks.
 - Independently re-derive load-bearing upstream boundary, ownership, consumer, and rollback claims against requirements, code, and data before plan conformance. Shared-origin artifacts count as one source. Artifacts built on others start with: `Upstream: <names> | Re-derived: <claims and checks>`.
+- Ongoing work: before choosing the next action, establish current state from handoffs, recent human decisions, and repo evidence; handoffs are claims to verify, not proof (including a handoff's record of a human decision; tag unverified claims `assumed` and report contradictory evidence). Established human decisions supersede the spec's original execution sequence; if one changes a requirement rather than only the order, flag the divergence. Missing context: name consequential gaps, proceed on reversible work under a stated assumption, stop at restricted actions. At session start, after a finished step, or when asked, give one concrete next action, its purpose, and whether the agent can do it or it needs the human. Use `previously-on` if installed; otherwise use available evidence without repeatedly announcing its absence. For this fallback, default routing alone does not make `previously-on` a required dependency; explicitly requested skills and substantive tasks requiring unavailable skill instructions still follow existing disclosure rules.
 
 ## Scrutiny triggers
 - Persistence: schema or serialized formats, migrations or transformations, destructive or bulk operations, stored-state interpretation/invariants, existing-data compatibility.
@@ -784,7 +789,7 @@ Behavior-dependent decisions remain open or provisional until their stated evide
 | 13 | Whether previously-on needs a `costly` vs `routine` filter beyond the ADR threshold | Threshold in 9.1 notes | First 5 handoffs | ADRs become noise or are missing |
 | 14 | How the baseline is installed per agent (the file name and mechanism differ between Codex and Claude Code) | Install `BASELINE.md` as each agent's always-on instruction file | Check each target's documentation and test | Before the first install |
 | 15 | Bundled copies of shared references versus an installer that preserves a shared folder | Bundled copies with a sync script and drift check | Drift frequency in practice | Bundled copies drift often, or an install process that preserves shared folders proves reliable |
-| 16 | Baseline reliability revision (2026-10-20) | Disclose unavailable skills; calibrate persistence/boundary/security triggers; extend restricted external execution; follow host precedence; require actual evidence or attribution. Keep nine surfaces, strict collapse conditions and skill-owned loading fail-safes | Focused structural regressions plus fresh behavioral evaluations; static assertions do not establish behavior | False routing, unsupported completion, or overrestriction in real use |
+| 16 | Baseline reliability revision (2026-10-20) | Disclose unavailable skills subject only to the default-session `previously-on` fallback in section 3.3; calibrate persistence/boundary/security triggers; extend restricted external execution; follow host precedence; require actual evidence or attribution. Keep nine surfaces, strict collapse conditions and skill-owned loading fail-safes | Focused structural regressions plus fresh behavioral evaluations; static assertions do not establish behavior | False routing, unsupported completion, or overrestriction in real use |
 | 17 | Baseline compression (2026-10-20) | 40 non-empty lines; target 600–700 tokens, provisional ceiling 900; consolidate evidence, concrete triggers and two authority categories, retaining operational guarantees. Record tokenizer and preserve v0.5 comparison snapshots | Same-fixture/model/settings/inventory comparisons plus untouched holdout cases; distinguish instruction assertions from observed behavior | Lost safeguards, false activations or unjustified budget exceptions |
 | 18 | Final baseline reconciliation (2026-10-20) | Restore separate partner behaviors, entry map, artifact-opening wording and direct-evidence/module-boundary collapse; protect work loss with inspected disposable-and-recoverable exception. Prefer safeguards to token target | Focused structural regressions and fresh behavior probes; preserve prior format failures | Freeze baseline after reconciliation until a real behavioral failure or consequential new requirement justifies change |
 
@@ -861,6 +866,10 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 ---
 
 ## Appendix D: Revision history
+
+**0.12**
+
+- Reconcile the provisionally accepted continuity amendment with the canonical baseline: verify handoff claims and recorded human decisions, follow established human decisions on implementation order while flagging requirement divergences, and give one purposeful next action at session start, after a finished step, or when asked. Limit the unavailable-skill disclosure exception to default session routing for `previously-on`; preserve disclosure and dependency termination for explicitly requested skills and substantive assessments requiring unavailable instructions. Synchronize the embedded baseline without weakening byte-equality conformance, section 3.6 loading rules, or Authority safeguards. Record the current size estimate separately from historical measurements. Historical evaluation results remain unchanged; behavioral scenarios remain unrun, and this amendment establishes no cross-conversation continuity or retrieval guarantee.
 
 **0.11**
 
