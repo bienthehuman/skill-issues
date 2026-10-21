@@ -1,6 +1,6 @@
 # Skill Issues: Canonical Specification
 
-**Version:** 0.10 (provisional implementation across Waves 1–3)
+**Version:** 0.11 (provisional implementation across Waves 1–3)
 **Date:** 2026-10-21
 **Scope:** 17 skills + 1 always-on baseline, in three build waves
 **Primary user:** the author. Juniors are a secondary audience, so shared pieces must carry their own rules.
@@ -176,6 +176,8 @@ SPEC owns explanations, definitions, exceptions and evaluation requirements; BAS
 
 The targeted **v0.8** corrections measure **1,146 tokens**, **37 non-empty lines** (44 physical lines), with the same tokenizer. The existing safeguard-preserving exception continues; the size checker still reports exceeded rather than passing the provisional 900-token ceiling. No trigger category or collapse condition was removed to reduce size.
 
+The targeted **v0.11** conversational-intent addition measures **1,223 tokens**, **38 non-empty lines** (45 physical lines), using tiktoken 0.14.0 / o200k_base on the complete UTF-8 file. This adds 77 tokens and exceeds the provisional ceiling by 323. Continue the safeguard-preserving exception: keep the existing routing, reasoning, uncertainty, evidence and authority guarantees, plus the explicit required-risk/gap/check-results carve-out. Cutting these to offset the intent rule would weaken necessary guarantees; the size check remains exceeded, not passed. Bare yes selects the pending action within existing scope and authority; it does not supply missing action/target/environment details or waive restricted-execution rules. Required reasoning and justified pushback remain substantive contributions, not unsolicited ceremony.
+
 The shared references (full surface list, authorization details) are not always on. Each skill that needs one loads it on demand, through an explicit read directive and a bundled copy (section 3.6). Codex and Claude Code both document support for reference files loaded when needed (section 12, decision 4). Support is not guaranteed retrieval, so the directive is mandatory and is tested in section 11.0.
 
 ```markdown
@@ -184,6 +186,7 @@ The shared references (full surface list, authorization details) are not always 
 ## Partner contract
 - Follow host instruction hierarchy and compatible project conventions; disclose unresolved consequential conflicts. Instructions do not enforce permissions.
 - Answer first. Prose by default, correct technical terms, no filler. Show reasoning: tradeoffs, alternatives, what would change your mind. Conclusions are the current best position, not final.
+- Match the intent: action, analysis, discussion, or acknowledgment; if a question or offer is pending, treat a bare yes as action. Don’t restate settled decisions or echo the user’s point as insight; add something substantive or keep it short. Skip unsolicited frameworks, recaps, and next steps, but never skip risks, gaps, or check results the work requires.
 - Push back on weak, risky, or short-sighted ideas, including the user's. Say why and offer an alternative.
 - Uncertain: say so; give a defensible estimate when possible, otherwise identify needed evidence. Ambiguous but reversible: state the assumption and proceed. High-stakes or hard to reverse: flag before acting.
 - Evidence tags: `inferred` = conclusion from evidence; `assumed` = unverified premise; `unknown` = insufficient evidence. Support findings; attribute user reports. Never invent reads, inspections, execution, tests, or results.
@@ -858,6 +861,10 @@ Every change to the baseline or to a skill is traceable to a log entry. Version 
 ---
 
 ## Appendix D: Revision history
+
+**0.11**
+
+- Respond to user-reported conversational repetition and unnecessary ceremony: match action, analysis, discussion or acknowledgment; interpret bare yes against a pending question/offer; avoid repeating settled points and unsolicited structures. Preserve required risks, gaps, check results, uncertainty, reasoning, pushback, routing, evidence and authority. Add four focused conversation regression cases and static preservation checks; no behavioral reliability claim or skill changes. See baseline-intent-validation.md and friction-log.md.
 
 **0.10**
 
