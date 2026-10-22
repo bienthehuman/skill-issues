@@ -1,7 +1,10 @@
 # Milestone 1 integration evaluation
 
-For the executed native Windows workflow, full evidence, configuration controls,
-fixture correction and isolation limits, see [Windows report](windows-20261020/REPORT.md).
+For the reported native Windows outcomes, fixture correction and isolation limits,
+see the [tracked historical summary](results.md#native-windows-follow-up-historical-summary).
+The detailed report `evals/windows-20261020/REPORT.md`, configuration records and
+raw captures are retained only locally in an ignored directory; the tracked summary
+is not a substitute for that unavailable evidence in a fresh checkout.
 The capture runner is `windows_capture.py`; use a fresh run ID for every invocation.
 
 Structural tests and behavioral evaluations are separate. See `results.md` for

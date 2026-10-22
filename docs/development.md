@@ -1,12 +1,12 @@
 # Skill Issues
 
-Reusable engineering skills for AI coding agents. Milestone 0 established packaging and installation tooling. Milestone 1 adds think-before-you-commit; behavioral validation remains pending.
+Reusable engineering skills for AI coding agents. All 17 canonical skills are implemented; structural readiness was established at `cdc1443`. Behavioral validation remains pending. See [project state](../PROJECT_STATE.md) for evidence and limitations.
 
 ## Sources and layout
 
-`SPEC.md` is the canonical v0.3 specification, originally renamed byte-for-byte from `skill-issues-spec.md` at v0.2 and subsequently amended through its revision history. It takes precedence over derived instructions. `BASELINE.md` is its section 4 instruction block, extracted verbatim (37 lines; maximum 40). The references in `shared/references/` are the canonical packaging sources derived from sections 6 and 7, with the applicable loading fallback and materially-risky definition. Edit shared references here, never in bundles.
+`SPEC.md` is the canonical v0.12 specification, originally renamed byte-for-byte from `skill-issues-spec.md` at v0.2 and subsequently amended through its revision history. It takes precedence over derived instructions. `BASELINE.md` is its section 4 instruction block, extracted verbatim (39 non-empty lines; maximum 40). The references in `shared/references/` are the canonical packaging sources derived from sections 6 and 7, with the applicable loading fallback and materially-risky definition. Edit shared references here, never in bundles.
 
-Skills live at `skills/<name>/SKILL.md`, with bundled references and their own artifact templates in `references/`. The loading map in `scripts/reference_tools.py` implements SPEC section 3.6 and is tested against that table. It includes later-wave names only as packaging metadata; no later-wave implementation is supplied. Other skills receive no shared references.
+Skills live at `skills/<name>/SKILL.md`, with bundled references and their own artifact templates in `references/`. The loading map in `scripts/reference_tools.py` implements SPEC section 3.6 and is tested against that table. All three waves are implemented. Other skills receive no shared references.
 
 `tests/` validates tooling. `evals/` is reserved for behavioral evaluation. `friction-log.md` follows Appendix B. No dependency manager or build framework is needed.
 
@@ -22,12 +22,12 @@ python -m unittest discover -s tests -v
 
 Scripts locate their repository from their own file location, so absolute script paths work from another working directory. The reference scripts also accept `--root <repository>` for isolated fixtures. Invoke extensionless scripts through Python on Windows and Unix; executable permission is not required.
 
-The repository contains `think-before-you-commit` and `read-the-contract`. Reference checks validate their bundled copies. The automated tests create temporary skill fixtures to exercise actual copying, drift, and failure cases. Fixtures are not implemented skills.
+The repository contains all 17 skills listed in [README](../README.md#implemented-skills) and SPEC 3.1. Reference checks validate all required bundled copies. The automated tests create temporary skill fixtures to exercise actual copying, drift, and failure cases. Fixtures are not implemented skills.
 
 ## Editing and synchronization
 
-1. Change requirements explicitly in `SPEC.md` before changing their meaning elsewhere. The specification hash in the foundation test is a provenance guard; update it deliberately if the specification is amended.
-2. Keep `BASELINE.md` consistent with section 4, within 40 lines, and free of file paths. Log baseline or skill changes using Appendix B's format.
+1. Change requirements explicitly in `SPEC.md` before changing their meaning elsewhere. The foundation tests guard baseline byte equality, source-section preservation and the loading map; preserve those checks when amending documentation.
+2. Keep `BASELINE.md` consistent with section 4, within 40 non-empty lines, and free of file paths. Log baseline or skill changes using Appendix B's format.
 3. Edit canonical references in `shared/references/`, preserving the specification's requirements. If section 6 or 7 changes, update its derived reference too; the source-section tests detect omission or alteration of those sections.
 4. Run `sync-references`. It creates missing required bundles but refuses divergent or unexpected shared references. It validates all copies before writing any; a validation conflict leaves every bundle unchanged.
 5. After reviewing a canonical change, use `python scripts/sync-references --update` to replace divergent bundles explicitly. This still refuses unexpected shared references; review and remove those manually. Private templates are never synchronized or deleted.
@@ -64,9 +64,16 @@ In a disposable project, install for each agent independently. Start the agent t
 
 `think-before-you-commit` is implemented with its own artifact template and bundled references. SPEC section 11.0 remains required for Wave 1 behavioral validation, not for permission to implement further skills: run it with that skill installed alone, from the project directory, with three cases, three runs each on Codex and Claude Code (18 runs). Record reference reads before classification, outcomes, and every intervention. See `evals/README.md`.
 
-SPEC section 3.2 now permits provisional implementation across Waves 1–3 with structural and packaging checks, preserving actual dependencies, handoff contracts and standalone fallbacks. After all 17 skills are implemented, assess integration readiness separately (11.9), then freeze and tag the initial complete implementation before portfolio development (11.10). Record versioned observations in the established friction-log conventions, preserve original failures, and require comparable regression evidence before claiming improvement. Implementation complete, integration ready and behaviorally validated are distinct statuses; none is granted by this roadmap amendment.
+SPEC section 3.2 now permits provisional implementation across Waves 1–3 with structural and packaging checks, preserving actual dependencies, handoff contracts and standalone fallbacks. All 17 implementations and the separate structural readiness assessment (11.9) are complete at `cdc1443`; freeze and tag the reviewed initial complete implementation before portfolio development (11.10). Record versioned observations in the established friction-log conventions, preserve original failures, and require comparable regression evidence before claiming improvement. Implementation complete, integration ready and behaviorally validated are distinct statuses; the first two are established, while behavioral validation remains outstanding.
 
 The earlier Codex-only development allowance is superseded by that implementation sequencing. Claude Code and complete instruction isolation
 remain outstanding; provisional implementation does not establish full cross-agent compatibility or
 amend the baseline. For the standalone-before-integration contract evaluation,
 see `evals/contracts-results.md` and `evals/contracts.py`.
+
+## Install skills separately
+
+Follow [skill installation](../README.md#installing-skills): copy complete selected
+`skills/<name>/` directories into project `.agents/skills/` or `.claude/skills/`.
+Keep bundled references; baseline installation and reference synchronization do
+not update installed skills. Verify host discovery in a new session separately.
