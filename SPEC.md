@@ -70,6 +70,7 @@ You enter by what is unclear, not by a fixed sequence.
 | What is unclear | Enter at |
 |---|---|
 | The system itself | you-are-here |
+| An unfamiliar concept (explanation or understanding, not a lookup; section 9.3) | i-dont-know |
 | An explicit request to refine, deepen, or strengthen a prompt | garbage-in-garbage-out |
 | What to build | define-done |
 | Which approach | it-depends |
@@ -574,6 +575,7 @@ Each artifact states which of its claims are load-bearing, so consumers know wha
 | Artifact | Produced by | Consumed by | Fields consumers rely on | Consumer must independently check |
 |---|---|---|---|---|
 | Prompt Refinement | garbage-in-garbage-out | Optional later: define-done when requirements remain unclear; it-depends when approach selection is needed; think-before-you-commit when the approach is settled and its triggers apply | Original objective, constraints/exclusions, labeled assumptions, four-lens findings, complete refined prompt, evidence and verification expectations | Fidelity to the original request; whether assumptions hold and primary material supports load-bearing claims. Refinement is neither confirmed Requirements nor an approved Implementation Plan |
+| Learning Notes | i-dont-know | Optional: previously-on can record what was learned (section 9.3) | Mental model, vocabulary, limits, next topic | Distinguish explanatory models from verified system facts; check staleness before preserving claims |
 | Codebase Map | you-are-here | think-before-you-commit, it-depends, what-could-possibly-go-wrong | Boundaries, state ownership, entry points | Any ownership or boundary claim the conclusion depends on: re-derive from code |
 | Challenge Report | devils-advocate | define-done, it-depends | Verdict, assumptions, overturning evidence | Whether the assumptions still hold |
 | Requirements | define-done | it-depends, prove-it, think-before-you-commit, trust-issues | AC-n, constraints, non-goals | That criteria are testable and match the original request |
