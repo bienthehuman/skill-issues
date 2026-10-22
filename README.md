@@ -35,29 +35,18 @@ An AI assistant should help developers become more capable, not more dependent.
 
 ## Project Status
 
-**Milestone 0 — Foundation complete**
+**All 17 canonical skills are implemented.** The separate SPEC 11.9 assessment
+found revision `cdc1443` structurally ready for controlled portfolio-project use
+and reported 107 passing repository tests plus reference/packaging checks.
+Structural readiness does not establish behavioral reliability: SPEC 11.7 remains
+unmet, Claude behavior and complete instruction isolation remain outstanding,
+and baseline token-ceiling compliance is unknown.
 
-The repository currently provides:
+See [project state](PROJECT_STATE.md) for the readiness decision, evidence and
+remaining limitations. Implementation is complete; freeze/tag the reviewed initial
+implementation before controlled portfolio use under SPEC 11.10.
 
-- The canonical engineering specification.
-- An always-on baseline for agent behavior.
-- Shared reference files for interface checks and authorization.
-- Reference synchronization and drift detection.
-- Preview-first baseline installation for Codex and Claude Code.
-- Automated foundation tests.
-
-The foundation passed 15 automated tests on Windows using Python 3.12.14.
-
-**`think-before-you-commit` is implemented; behavioral validation is blocked in the current environment.**
-
-Milestone 1 adds the planning template, bundled references, isolated evaluation fixtures, and structural tests. See [evaluation results](evals/results.md); Milestone 1 is not complete.
-
-`read-the-contract` now provides standalone Contract Reviews and scoped planning
-handoffs. SPEC section 3.2 permits provisional implementation across all three waves;
-Claude Code evaluation and complete instruction isolation remain required before
-claiming full cross-agent compatibility. See [contract evaluation](evals/contracts-results.md).
-
-## Planned Skills
+## Implemented Skills
 
 The collection is organized into three implementation waves.
 
@@ -109,7 +98,7 @@ python -m unittest discover -s tests -v
 
 Use `python3` where appropriate.
 
-These commands validate the repository foundation. They do not establish that the planned skills work.
+These commands validate repository structure and packaging. They do not establish behavioral reliability.
 
 ### Installing the Baseline
 
@@ -131,13 +120,25 @@ The installer preserves existing instructions outside its managed block and refu
 
 To refresh an existing installation, use the same preview command, review the diff, then rerun with `--apply`. An intact managed block is replaced only after its recorded digest is validated; edited or malformed blocks require manual review. Do not overwrite `AGENTS.md` or `CLAUDE.md` directly. Start a new agent session afterward; installation alone does not prove runtime loading.
 
-The installer targets project instructions only; it does not refresh global instruction files. Skill Issues follows the host's instruction hierarchy and compatible project conventions, without overriding higher-priority instructions or technically enforcing permissions. For SPEC 0.5, also refresh installed copies of the two implemented skills from the reviewed repository folders (including their bundled references) using your existing skill installation process. Reference synchronization updates repository bundles, not installed copies. Unavailable skills must be disclosed; their workflows must not be invented or reported complete.
+The installer targets project instructions only; it does not refresh global instruction files. Skill Issues follows the host's instruction hierarchy and compatible project conventions, without overriding higher-priority instructions or technically enforcing permissions. Refresh installed skills separately from the reviewed `skills/<name>/` folders,
+including each complete `references/` directory. Reference synchronization updates
+repository bundles, not installed copies. Unavailable skills must be disclosed;
+their workflows must not be invented or reported complete.
 
-SPEC 0.6 compresses the baseline; it does not change installed skill workflows or references. Refresh an existing managed baseline using the same preview-first command above. The size budget is 40 non-empty lines, a 600–700-token target and a provisional 900-token ceiling. Run `python scripts/check-baseline`: with `tiktoken` available it measures `o200k_base`; otherwise it clearly reports a character-based estimate and unknown ceiling compliance. Tokenizer/cache availability is separate from installation, which needs no tokenizer dependency. The exact target-agent tokenizer may differ. See [compression audit](baseline-compression-audit.md) for measurements, preservation checks and behavioral limits.
+### Installing skills
 
-SPEC 0.7 reconciles the supplied wording, restores partner behavior/routing, and protects uncommitted, untracked and unpushed work. Its 1,110 measured tokens intentionally exceed the provisional ceiling; SPEC section 4 records the safeguard-preserving exception. Refresh the managed baseline preview-first and refresh installed copies of the two implemented skills' authorization references from their synchronized repository bundles. No skill workflow changed. See [reconciliation report](baseline-reconciliation-report.md); freeze further baseline edits until a real behavioral failure or consequential new requirement warrants them.
+Copy each selected skill's whole directory into the target project's
+`.agents/skills/<name>/` for Codex or `.claude/skills/<name>/` for Claude Code.
+Install all 17 directories for the complete inventory; a single skill can also be
+installed standalone. Keep `SKILL.md` and its bundled references together; no
+repository-level shared folder is required. Start a new host session and verify
+actual discovery/loading separately; folder-copy tests do not prove activation.
 
-Installing the baseline does not install any of the planned skills.
+Installing the baseline does not install skills. The current specification is
+v0.12. Run `python scripts/check-baseline` to report the 40-non-empty-line cap and
+token budget: a character estimate cannot prove compliance with the provisional
+900-token ceiling. Preserve SPEC 4's safeguard-preserving exception and historical
+measurements; see [project state](PROJECT_STATE.md) for current limits.
 
 ## How It Works
 
@@ -183,10 +184,10 @@ For implementation details, refer to `SPEC.md` and the repository's technical do
 - [ ] Milestone 1 — First skill and reference-loading evaluation (outstanding behavioral evidence does not block implementation)
 - [ ] Milestone 2 — Interface Check workflow validation
 - [x] Milestone 3 — Wave 1 implementation inventory complete; behavioral validation remains pending
-- [ ] Wave 2 — Provisional implementation of engineering decision specialists
-- [ ] Wave 3 — Provisional implementation of operations, performance, and learning
-- [ ] Complete inventory — Record structural and packaging validation for all 17 skills
-- [ ] Integration readiness — Separate assessment after complete implementation (SPEC 11.9)
+- [x] Wave 2 — Engineering decision specialists implemented; behavior pending
+- [x] Wave 3 — Operations, performance, refinement and learning implemented; behavior pending
+- [x] Complete inventory — Structural and packaging validation recorded for all 17 skills
+- [x] Integration readiness — Structural assessment at `cdc1443` (SPEC 11.9); behavior pending
 - [ ] Initial complete implementation — Freeze and tag before portfolio development
 - [ ] Practical evaluation — Portfolio use, evidence-driven revisions, and comparable regression checks; preserve original failures (SPEC 11.10)
 - [ ] Wave 1 behavioral validation — Meet all existing exit criteria (SPEC 11.7)

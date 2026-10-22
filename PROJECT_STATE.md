@@ -1,62 +1,78 @@
 # Skill Issues — project state
 
-Reviewed 2026-10-22 against `c1fe9b8` and the working tree. This is a continuity
-record, not a specification, changelog, mandatory workflow, or execution grant.
-Repository facts below come from inspected files; human decisions are attributed.
+Reviewed 2026-10-22 against `cdc1443` and the documentation working tree.
+This is a continuity record, not a specification or execution grant.
 
 ## Current position
 
-- Canonical specification: [SPEC.md](SPEC.md) **v0.12**. Architecture: 17 skills
-  in three waves plus one always-on [BASELINE.md](BASELINE.md), not counted as a
-  skill. The applicable baseline includes the v0.12 continuity amendment.
-- **15 implementations present**, evidenced by each named directory's `SKILL.md`
-  and private artifact template under `skills/<name>/references/`:
+- Canonical specification: [SPEC.md](SPEC.md) **v0.12**; separate always-on
+  [BASELINE.md](BASELINE.md), including the continuity amendment.
+- **All 17 canonical skills implemented**, each with its private template:
   - Wave 1 (7/7): `you-are-here`, `think-before-you-commit`, `read-the-contract`,
     `trust-issues`, `prove-it`, `but-it-works-on-my-machine`, `previously-on`.
   - Wave 2 (6/6): `define-done`, `it-depends`, `what-could-possibly-go-wrong`,
     `devils-advocate`, `select-your-battles`, `same-same-but-different`.
-  - Wave 3 (2/4): `famous-last-words`, `are-we-there-yet`.
-- **Remaining (no implementation directories):** `garbage-in-garbage-out`,
-  `i-dont-know`. Their specification entries are not
-  implementations. The complete-inventory and integration-readiness milestones
-  are not yet established.
-- Evidence limits: source presence establishes implementation inventory, not
-  behavioral reliability or installed availability in any host. Historical
-  structural and targeted Codex results are recorded in [friction-log.md](friction-log.md)
-  and [evals/](evals/), including preserved failures and corrective runs.
-  [Review results](evals/reviews-results.md) substantiate `trust-issues` delivery;
-  [rollout results](evals/famous-last-words-results.md) substantiate `famous-last-words`.
-  Those reports retain Claude Code, isolation, repetition, and regression gaps;
-  SPEC 11.7 behavioral exit criteria remain unmet. Historical runs were not
-  reproduced for this record.
-- Latest implementation: `are-we-there-yet` entrypoint and private
-  [Performance Report template](skills/are-we-there-yet/references/performance-report.md)
-  exist. The [validation report](evals/performance-results.md) records 102
-  repository tests passed, three final focused tests passed, four focused Codex
-  behavioral cases passed on trace review, Codex/Claude standalone packaging
-  checks passed, and reference checks passed for 15 skills. These are recorded
-  execution results, not fresh runs in this maintenance task. The 102-test run
-  preceded the final fixture-preparation test; the final focused run covered it.
-  Authoring validation was blocked by missing PyYAML. Live profiling,
-  intervention execution and Claude behavioral testing remain untested; static
-  folder copies do not establish Claude behavior. This is a provisional
-  implementation with focused evidence, not full behavioral validation.
-- Inventory reconciliation: SPEC 3.1's 17 names match the 15 implemented names
-  plus the two missing names above; no extra skill or missing private template
-  was found. The prior 14-skill count and pending performance implementation
-  were stale. The performance implementation and its validation files remain
-  untracked in this checkout; implementation presence is not committed delivery.
-- Continuity reconciliation is present in BASELINE and SPEC (commit `1845d0b`).
-  Canonical baseline equality was checked during this record's creation. The
-  supplied human history reports static checks passing and seven behavioral
-  scenarios unrun: **`assumed` as historical execution/count claims**, not
-  independently established by that commit or a dedicated validation report.
-  SPEC's v0.12 revision explicitly says behavioral scenarios remain unrun.
-  Its baseline size is an estimate; token-ceiling compliance remains `unknown`.
-- Known stale summaries: README's early milestone/count wording and
-  `docs/development.md`'s two-skill inventory do not describe today's inventory.
-  No existing repository-wide current-state record was identified; report/template
-  files serve narrower purposes.
+  - Wave 3 (4/4): `famous-last-words`, `are-we-there-yet`,
+    `garbage-in-garbage-out`, `i-dont-know`.
+- **Implementation phase complete; structural integration readiness established
+  at revision `cdc1443`.** The separate read-only SPEC 11.9 assessment on
+  2026-10-22 (Codex chat “Assess integration readiness”, ID
+  `01a16261-13f2-7a70-83f4-e6447c5cdaeb`) found no consequential structural blocker.
+  It reported **107 passing repository tests** on the approved rerun after
+  sandbox temporary-directory denials; reference checks covered 17 skills with
+  zero drift, nine shared bundles matched canonical bytes, 21 private Markdown
+  links resolved, standalone Codex/Claude layouts passed, and baseline extraction
+  matched SPEC byte-for-byte. These are prior assessment results, separate from
+  the maintenance checks below. This record makes the decision available in the
+  repository; the detailed assessment was returned in chat, not a tracked report.
+- **Structural readiness is not behavioral reliability.** SPEC 11.7 remains
+  unmet. Source presence and folder-copy tests do not establish installed host
+  availability, activation, reasoning quality, or authorization compliance.
+- Next phase: controlled portfolio-project use under SPEC 11.10, after freezing
+  and tagging the reviewed initial implementation. No freeze/tag is established
+  by this record or performed by this documentation task.
+
+## Evidence and outstanding limitations
+
+Historical reports retain original failures and corrective runs; none were rerun
+as behavioral evaluations during this maintenance task:
+
+- [Initial results](evals/results.md) retain the blocked first attempt;
+  [Windows report](evals/windows-20261020/REPORT.md) reports the corrected Codex
+  9/9 reference-loading matrix and preserves the confounded original control.
+  [Contract results](evals/contracts-results.md) record focused repaired passes.
+- [Review results](evals/reviews-results.md) retain rollback-exception and artifact
+  envelope failures with partial corrective coverage. [Rollout results](evals/famous-last-words-results.md)
+  retain unsupported irreversibility reasoning and fixture confounds; successful
+  live recovery is unproven.
+- [Verification results](evals/prove-it-results.md) establish packaging, not live
+  mode execution. [Performance results](evals/performance-results.md) report four
+  focused cases, but no runnable baseline/intervention measurement path, live
+  profiling or executed intervention. Its historical 102-test result is unchanged.
+- [Refinement results](evals/prompt-refinement-results.md) preserve G8 regressions;
+  final corrections cover selected cases only. Missing-input/unreadable-template
+  fallbacks, full SPEC 11.8 comparisons and downstream integration remain unrun.
+- [Learning results](evals/learning-results.md) retain omitted fields and a
+  confounded quiz capture; the corrected short case is a focused pass only.
+  Ten remaining cases, final-version quiz rerun and two-turn continuation remain
+  unrun, as do repetitions and skill-free comparisons.
+- Claude behavioral validation, complete instruction isolation, broad repeated
+  trials and skill-free controls, full E1–E5 coverage, ten trivial tasks, real-project
+  evidence and comprehensive integration remain outstanding. Earlier specialist
+  structural checks in [friction-log.md](friction-log.md) do not establish live
+  orientation, debugging, requirements, design, impact, challenge, schema or
+  refactoring reliability. Controlled natural use does not replace seeded criteria.
+- Continuity scenarios and baseline conversational regression cases remain unrun.
+  The earlier human-reported seven continuity cases are an **assumed historical
+  count**, not an independently recovered procedure. SPEC v0.12 records them as
+  unrun; no cross-chat retrieval guarantee is established.
+- Optional authoring validation was blocked by missing PyYAML (`yaml`); manual
+  metadata inspection is narrower evidence, not a validator pass. No dependencies
+  were added. Historical environment failures remain recorded in their reports.
+- Baseline: 39 non-empty lines meet the 40-line cap. The v0.12 **1,879-token
+  character estimate** is not a tokenizer measurement; ceiling compliance is
+  **unknown**. Historical measured overages and the safeguard-preserving exception
+  in SPEC 4 remain in force; do not treat checker exit 0 as token compliance.
 
 ## Durable decisions
 
@@ -68,59 +84,43 @@ Repository facts below come from inspected files; human decisions are attributed
 | D4 / `current` | Establish continuity from repository evidence and recent human decisions; treat handoffs as claims and separate durable decisions from transient work. Repository basis: v0.12 baseline, SPEC 3.3 and Appendix A. | Revisit on observed continuity failures or consequential new requirements. No guarantee of automatic retrieval across chats. |
 
 D3 superseded the original sequence **for that immediate action only**;
-it does not change skill requirements or establish an order for the final two skills.
-
-## Deferred work
-
-- Comprehensive practical evaluation and outstanding Wave 1 criteria: postponed
-  to test the complete workflow during portfolio development; resume after the
-  complete inventory, SPEC 11.9 readiness assessment and initial freeze/tag.
-  Keep seeded comparisons and original failures; natural use alone is insufficient.
-- Claude Code execution and complete instruction isolation: historical reports
-  cite availability/environment limits. Resume when suitable access and isolation
-  exist; current availability is `unknown`. Folder-copy tests are not host behavior.
-- Continuity behavioral scenarios: reported seven unrun; count/procedure not
-  independently confirmed here. Recover or define the actual cases and capture
-  fresh behavior before asserting continuity reliability.
+it did not change skill requirements or establish an order for the final two skills.
+Both have since been implemented; this rationale is retained as decision history.
 
 ## Next action
 
-**Recommended next skill: `garbage-in-garbage-out`, then `i-dont-know`.**
-This is an agent recommendation, not a newly established human decision or a
-binding interpretation of wave order. SPEC 3.1 prefers handoff recipients before
-producers. Prompt Refinement's optional recipients (`define-done`, `it-depends`,
-`think-before-you-commit`) already exist, so its entry path can now be completed
-without an unavailable recipient. `i-dont-know` builds understanding outside that
-delivery path; its optional learning-continuity recipient `previously-on` also
-exists. Neither remaining skill depends on the other, so dependencies permit
-either order; completing the refinement entry path first is the recommendation's
-rationale, not a hard dependency. D3 selected performance work only and is now
-fulfilled; no established human decision orders the remaining pair.
-
-For a later implementation request, follow SPEC 3.5–3.6, 9.3 and G8: create the
-self-contained entrypoint and private Prompt Refinement template, preserve the
-mandatory reusable refined prompt and all four proportional deepening lenses,
-and stop after refinement without automatically executing the rewritten task.
-Verify structural/packaging properties and record actual results and gaps without
-expanding into comprehensive evaluation. Broader practical testing remains
-deferred under D2; the performance report's suggested runnable benchmark is
-deferred verification work, not a newer human implementation-priority decision.
-
-On a future implementation request, Codex can inspect, draft local files and run
-permitted non-destructive checks within that request. This record does not initiate
-implementation. Changed requirements/priorities or compatibility exceptions need
-a human decision; restricted actions need fresh applicable human authorization
-under host rules and BASELINE Authority. Historical grants never supply permission.
+Prepare a reviewed freeze/tag of the initial complete implementation, then use it
+in one portfolio project under SPEC 11.10. Record the installed inventory,
+agent/model/settings and version with observations in the existing friction log;
+preserve failed cases for comparable regression checks. This recommendation is
+not authorization to commit, tag, push or execute restricted actions.
 
 ## Transient state
 
-- Initial `git status --porcelain` for this maintenance task listed untracked
-  `evals/performance-results.md`, `evals/performance.py`,
-  `skills/are-we-there-yet/` and `tests/test_are_we_there_yet.py`.
-- This task edits only `PROJECT_STATE.md`. Preserve that existing implementation,
-  validation material and ignored local captures. No new skill implementation,
-  evaluation rerun, commit, push, baseline/spec edit or validation-report edit is
-  part of this task. Recheck Git state on resume.
+The working tree was clean at this task's start; the previously recorded untracked
+performance implementation is now committed. This task changes documentation only.
+Ignored captures and other existing local work are preserved. No skill or baseline
+implementation, comprehensive evaluation, dependency, commit or push is part of it.
+
+## Maintenance verification — 2026-10-22
+
+Newly executed with bundled Python 3.12.14 (`-B`):
+
+- `python -B -m unittest discover -s tests -q`: sandbox attempt ran 107 tests
+  with 111 temporary-fixture access error records; approved outside-sandbox rerun
+  **107 passed in 28.267s**. No assertion or implementation changes were needed.
+- `python -B scripts/check-references`: **17 skills, zero changes/drift**.
+- Direct assertions: SPEC 3.1, README and directory inventories equal **17**;
+  extracted baseline equals `BASELINE.md` byte-for-byte. All **17 local Markdown
+  links** in the four changed documents resolve, including explicit anchors.
+- `python -B scripts/check-baseline`: exit 0, **39 non-empty lines**, estimated
+  **1,879 tokens**, ceiling status **unknown**; no measured token pass claimed.
+- `git diff --check`: passed. Only the four intended Markdown files changed;
+  skill implementations, baseline, scripts, tests and historical reports unchanged.
+
+No comprehensive or focused behavioral captures, optional PyYAML authoring
+validator, external web-link availability checks or tokenizer measurement were
+run here. The existing optional-validator blocker remains unresolved.
 
 ## Maintenance
 
