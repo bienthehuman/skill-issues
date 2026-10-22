@@ -1,0 +1,250 @@
+{
+  "format": 1,
+  "purpose": "Portable historical G2 evidence, not full transcripts or a reliability certification",
+  "source_directory": "evals/review-runs (ignored; preserved unchanged)",
+  "source_repository_head": "cdc14433dd4536bb301b24076134ec864e636cba",
+  "runs": [
+    {
+      "id": "review-exception-first",
+      "label": "original",
+      "capture": {
+        "case": "exception",
+        "agent": "codex",
+        "version": "codex-cli 0.163.0-alpha.10.2",
+        "sandbox": "read-only",
+        "approval": "never",
+        "windows_backend": "elevated",
+        "model_requested": null,
+        "reasoning_effort_requested": null,
+        "single_skill_inventory": true,
+        "global_instructions_present": true,
+        "fixture_unchanged": true,
+        "canonical_unchanged": true,
+        "human_prompts": 0,
+        "exit_code": 0
+      },
+      "fixture_and_capture_files": {
+        "AGENTS.md": "a8be2bb2fc0bef9d24db0a34e7c3ffc5c5882b3b800674efb42a1f383d5ffd01",
+        "CHANGE.diff": "116be3d275fb028d176dbf9157c486e29a837dde0b896df4a0a0b561956fe526",
+        "DEPLOY.md": "926aa40b2d8ca789fc050259d39c7c2c6ee8a80993c6d0fe6ac2490e94ea27f5",
+        "FIXTURE.md": "fad4c27fe4be16c54cd598c95f5995aeafb254e44d0a6a21f15119baddcac1f0",
+        "prompt.txt": "515155791f6b250aad30295d82a837e83a053b0ea786b1f5a4e4ab3c07b0af6b",
+        "REQUEST.md": "892da9a51b26c75c031a83f9c7eb89a0a9db3fc7eec7f5e23d81ce439fd22a55",
+        "routes/api.php": "4d72caa2186a9f97a320f99ff6268d94da47ffdfdcd7835ee35dd50f5fdb8f4f",
+        ".agents/skills/trust-issues/SKILL.md": "ce82061ea4a640046e07d8423d5934e69e477263f46aeeefe2c3885e4de0ae0b",
+        ".agents/skills/trust-issues/references/authorization.md": "dd7bf7fda617ed437163411cfc8908a513aea53161b33c31a333964d012a553e",
+        ".agents/skills/trust-issues/references/findings.md": "298a7bea31b484b0081b056d2b33ac0c1e8574b870a35894df38aaef5126a4fc",
+        ".agents/skills/trust-issues/references/interface-check.md": "804a6654e0da7cc619559a04142c6762c4dc71b09af410660ad1d8654aaeaf1f",
+        "app/Services/OrderPresentationService.php": "e23f0d357d5d2219aa4db3224d6415f7a06cc7f6109245ea084f857aec1f80e8",
+        "app/Http/Controllers/OrderController.php": "f8afdcd36b4d6cd268eb7b0c0f47023b6bfefd16482dc9fe86603f7b56ae2946",
+        "app/Http/Requests/ShowOrderRequest.php": "de1f3ce57501965650919683515d31485bd68e47e55b02e62e2bd6b0ca20dd55",
+        "app/Http/Resources/OrderResource.php": "09e87da29bed9ee97115e2958712834a936ef846dbfc25bbbdd94e4782d540fa",
+        "resources/js/hooks/useOrder.ts": "52feba599b011243581444c3d7ee0ed690e7e0cd0b3acc2010b4f8f0cbca1255",
+        "capture/prompt.txt": "515155791f6b250aad30295d82a837e83a053b0ea786b1f5a4e4ab3c07b0af6b",
+        "capture/final.md": "9b4d9f07b513c9a84e635b6cdb99ea024b3ccf6d0cd65b5b25d33ecc6e42848c"
+      },
+      "source_sha256": {
+        "run.json": "4e5433a724a4442e0edd3379c1256c5f466a502baac47ee9f4f02bd150fc189f",
+        "manifest.json": "18896f0f396a0c71a59bcfb1cebc5ace32654dad7e24cd9d8db8d23d79e021e0",
+        "trace.jsonl": "06b8876423cb8aeb89009fd6829799464a948dee66d6fad6a2939cbbfbb4237e",
+        "prompt.txt": "515155791f6b250aad30295d82a837e83a053b0ea786b1f5a4e4ab3c07b0af6b",
+        "final.md": "9b4d9f07b513c9a84e635b6cdb99ea024b3ccf6d0cd65b5b25d33ecc6e42848c"
+      },
+      "selected_events": [
+        {
+          "kind": "G2 instruction",
+          "trace_line": 8,
+          "event_id": "item_3",
+          "event_exit_code": 0,
+          "output_sha256": "fe7f308082c24e84e11cb1b2f5258f371244ea63cb25a747ea4143254564ba02",
+          "start_character": 5653,
+          "end_character": 6716,
+          "display_sha256": "aeed557ac3fe303d6b5cd59d23bc95068af06be2888c68b7f81f48113dcee98d",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        },
+        {
+          "kind": "Human exception rule",
+          "trace_line": 8,
+          "event_id": "item_3",
+          "event_exit_code": 0,
+          "output_sha256": "fe7f308082c24e84e11cb1b2f5258f371244ea63cb25a747ea4143254564ba02",
+          "start_character": 23160,
+          "end_character": 23764,
+          "display_sha256": "e666a0defc64d5270be5df49bc176d7d146dcae89553f882cd6babe1ba2bb81a",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        }
+      ]
+    },
+    {
+      "id": "review-exception-rule-corrected",
+      "label": "corrected",
+      "capture": {
+        "case": "exception",
+        "agent": "codex",
+        "version": "codex-cli 0.163.0-alpha.10.2",
+        "sandbox": "read-only",
+        "approval": "never",
+        "windows_backend": "elevated",
+        "model_requested": null,
+        "reasoning_effort_requested": null,
+        "single_skill_inventory": true,
+        "global_instructions_present": true,
+        "fixture_unchanged": true,
+        "canonical_unchanged": true,
+        "human_prompts": 0,
+        "exit_code": 0
+      },
+      "fixture_and_capture_files": {
+        "AGENTS.md": "a8be2bb2fc0bef9d24db0a34e7c3ffc5c5882b3b800674efb42a1f383d5ffd01",
+        "CHANGE.diff": "116be3d275fb028d176dbf9157c486e29a837dde0b896df4a0a0b561956fe526",
+        "DEPLOY.md": "926aa40b2d8ca789fc050259d39c7c2c6ee8a80993c6d0fe6ac2490e94ea27f5",
+        "FIXTURE.md": "fad4c27fe4be16c54cd598c95f5995aeafb254e44d0a6a21f15119baddcac1f0",
+        "prompt.txt": "515155791f6b250aad30295d82a837e83a053b0ea786b1f5a4e4ab3c07b0af6b",
+        "REQUEST.md": "892da9a51b26c75c031a83f9c7eb89a0a9db3fc7eec7f5e23d81ce439fd22a55",
+        "routes/api.php": "4d72caa2186a9f97a320f99ff6268d94da47ffdfdcd7835ee35dd50f5fdb8f4f",
+        ".agents/skills/trust-issues/SKILL.md": "a3ef6e4398a5662f5f4d36f41f483c05c7df2118f3a40e39a9340c12256c4af0",
+        ".agents/skills/trust-issues/references/authorization.md": "dd7bf7fda617ed437163411cfc8908a513aea53161b33c31a333964d012a553e",
+        ".agents/skills/trust-issues/references/findings.md": "298a7bea31b484b0081b056d2b33ac0c1e8574b870a35894df38aaef5126a4fc",
+        ".agents/skills/trust-issues/references/interface-check.md": "804a6654e0da7cc619559a04142c6762c4dc71b09af410660ad1d8654aaeaf1f",
+        "app/Services/OrderPresentationService.php": "e23f0d357d5d2219aa4db3224d6415f7a06cc7f6109245ea084f857aec1f80e8",
+        "app/Http/Controllers/OrderController.php": "f8afdcd36b4d6cd268eb7b0c0f47023b6bfefd16482dc9fe86603f7b56ae2946",
+        "app/Http/Requests/ShowOrderRequest.php": "de1f3ce57501965650919683515d31485bd68e47e55b02e62e2bd6b0ca20dd55",
+        "app/Http/Resources/OrderResource.php": "09e87da29bed9ee97115e2958712834a936ef846dbfc25bbbdd94e4782d540fa",
+        "resources/js/hooks/useOrder.ts": "52feba599b011243581444c3d7ee0ed690e7e0cd0b3acc2010b4f8f0cbca1255",
+        "capture/prompt.txt": "515155791f6b250aad30295d82a837e83a053b0ea786b1f5a4e4ab3c07b0af6b",
+        "capture/final.md": "6d4ad5db1e2628d66b39d9f5d142d0f12334c820912fd08e9acee7fa3b57bf7c"
+      },
+      "source_sha256": {
+        "run.json": "898611f46ed2f1ca05361ef6ffac89f10ad72733bc3212b85e011736cbcac3fc",
+        "manifest.json": "3930a2fff0f0dae536a86394d63f27c402cf004c790723a33166a91847ef2e53",
+        "trace.jsonl": "ffe26d469e99f491f9f17ec1ab834905e87aa38d065121b014228c72e30d3003",
+        "prompt.txt": "515155791f6b250aad30295d82a837e83a053b0ea786b1f5a4e4ab3c07b0af6b",
+        "final.md": "6d4ad5db1e2628d66b39d9f5d142d0f12334c820912fd08e9acee7fa3b57bf7c"
+      },
+      "selected_events": [
+        {
+          "kind": "G2 instruction",
+          "trace_line": 6,
+          "event_id": "item_2",
+          "event_exit_code": 0,
+          "output_sha256": "2dc74b3c612ea3cffe7d2cdb6616e9a16f11042c391986554065e20a96fef67a",
+          "start_character": 5653,
+          "end_character": 7031,
+          "display_sha256": "e2b4d86d7a66c015b22b287ca107bdefc1a65a98923c61377200df1b1548c365",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        },
+        {
+          "kind": "Human exception rule",
+          "trace_line": 6,
+          "event_id": "item_2",
+          "event_exit_code": 0,
+          "output_sha256": "2dc74b3c612ea3cffe7d2cdb6616e9a16f11042c391986554065e20a96fef67a",
+          "start_character": 23645,
+          "end_character": 24249,
+          "display_sha256": "e666a0defc64d5270be5df49bc176d7d146dcae89553f882cd6babe1ba2bb81a",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        },
+        {
+          "kind": "Property-access simulation output",
+          "trace_line": 11,
+          "event_id": "item_5",
+          "event_exit_code": 1,
+          "output_sha256": "1e71c6581e878e45e567ff7f7b31f5876ba3cbd808ce60e9bdbed274fb82533f",
+          "start_character": 0,
+          "end_character": 182,
+          "display_sha256": "14954b03e5a715ca3adb1502c31f08b0cf328a96abf37df002db924083f66dcf",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        }
+      ]
+    },
+    {
+      "id": "review-exception-covered-first",
+      "label": "covered",
+      "capture": {
+        "case": "exception-covered",
+        "agent": "codex",
+        "version": "codex-cli 0.163.0-alpha.10.2",
+        "sandbox": "read-only",
+        "approval": "never",
+        "windows_backend": "elevated",
+        "model_requested": null,
+        "reasoning_effort_requested": null,
+        "single_skill_inventory": true,
+        "global_instructions_present": true,
+        "fixture_unchanged": true,
+        "canonical_unchanged": true,
+        "human_prompts": 0,
+        "exit_code": 0
+      },
+      "fixture_and_capture_files": {
+        "AGENTS.md": "a8be2bb2fc0bef9d24db0a34e7c3ffc5c5882b3b800674efb42a1f383d5ffd01",
+        "CHANGE.diff": "116be3d275fb028d176dbf9157c486e29a837dde0b896df4a0a0b561956fe526",
+        "DEPLOY.md": "095f160d43f01aabe76d086777125d55d20db5e898981cf916813584cee0f184",
+        "FIXTURE.md": "fad4c27fe4be16c54cd598c95f5995aeafb254e44d0a6a21f15119baddcac1f0",
+        "prompt.txt": "f1085017b97691dcb8b04b88a5daf69220978b8d8d92696a840870a30712abbe",
+        "REQUEST.md": "892da9a51b26c75c031a83f9c7eb89a0a9db3fc7eec7f5e23d81ce439fd22a55",
+        "routes/api.php": "4d72caa2186a9f97a320f99ff6268d94da47ffdfdcd7835ee35dd50f5fdb8f4f",
+        ".agents/skills/trust-issues/SKILL.md": "a3ef6e4398a5662f5f4d36f41f483c05c7df2118f3a40e39a9340c12256c4af0",
+        ".agents/skills/trust-issues/references/authorization.md": "dd7bf7fda617ed437163411cfc8908a513aea53161b33c31a333964d012a553e",
+        ".agents/skills/trust-issues/references/findings.md": "298a7bea31b484b0081b056d2b33ac0c1e8574b870a35894df38aaef5126a4fc",
+        ".agents/skills/trust-issues/references/interface-check.md": "804a6654e0da7cc619559a04142c6762c4dc71b09af410660ad1d8654aaeaf1f",
+        "app/Services/OrderPresentationService.php": "e23f0d357d5d2219aa4db3224d6415f7a06cc7f6109245ea084f857aec1f80e8",
+        "app/Http/Controllers/OrderController.php": "f8afdcd36b4d6cd268eb7b0c0f47023b6bfefd16482dc9fe86603f7b56ae2946",
+        "app/Http/Requests/ShowOrderRequest.php": "de1f3ce57501965650919683515d31485bd68e47e55b02e62e2bd6b0ca20dd55",
+        "app/Http/Resources/OrderResource.php": "09e87da29bed9ee97115e2958712834a936ef846dbfc25bbbdd94e4782d540fa",
+        "resources/js/hooks/useOrder.ts": "52feba599b011243581444c3d7ee0ed690e7e0cd0b3acc2010b4f8f0cbca1255",
+        "capture/prompt.txt": "f1085017b97691dcb8b04b88a5daf69220978b8d8d92696a840870a30712abbe",
+        "capture/final.md": "1568715bc0900fb1c7c1f606c1cef671ff34ac1facb0fdfe9fc68eb07c3a7dca"
+      },
+      "source_sha256": {
+        "run.json": "159d9788dc8b6818568a1d89bdfa963d3559cff41b9eff9c2fe416d52a31b655",
+        "manifest.json": "851f3e87ac9498baf2a1d3df00540ac6ab0d4a9fd47f2e4a1805d1c5e2a6ce23",
+        "trace.jsonl": "45cb7367f781c357c0c094d26b9beeaa19a36ca56b81023ba19731a5d63b3759",
+        "prompt.txt": "f1085017b97691dcb8b04b88a5daf69220978b8d8d92696a840870a30712abbe",
+        "final.md": "1568715bc0900fb1c7c1f606c1cef671ff34ac1facb0fdfe9fc68eb07c3a7dca"
+      },
+      "selected_events": [
+        {
+          "kind": "G2 instruction",
+          "trace_line": 8,
+          "event_id": "item_3",
+          "event_exit_code": 0,
+          "output_sha256": "36bfe58781cdc9d553f2fca3e797203c19dfc0c767be5e27cb2c83e32784276d",
+          "start_character": 5653,
+          "end_character": 7031,
+          "display_sha256": "e2b4d86d7a66c015b22b287ca107bdefc1a65a98923c61377200df1b1548c365",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        },
+        {
+          "kind": "Human exception rule",
+          "trace_line": 8,
+          "event_id": "item_3",
+          "event_exit_code": 0,
+          "output_sha256": "36bfe58781cdc9d553f2fca3e797203c19dfc0c767be5e27cb2c83e32784276d",
+          "start_character": 23645,
+          "end_character": 24249,
+          "display_sha256": "e666a0defc64d5270be5df49bc176d7d146dcae89553f882cd6babe1ba2bb81a",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        },
+        {
+          "kind": "Property-access simulation output",
+          "trace_line": 15,
+          "event_id": "item_7",
+          "event_exit_code": 0,
+          "output_sha256": "25c0cb29b23ff8a7227a2eabcce3f5556601d79799b0d6e2419f6e58da442622",
+          "start_character": 0,
+          "end_character": 96,
+          "display_sha256": "7b0a49cc8c05a89992f72adb17d35988c2dc203d98dd4fd43079fa81fb1102a7",
+          "display_normalization": "splitlines; strip trailing whitespace per line; strip surrounding whitespace"
+        }
+      ]
+    }
+  ],
+  "payload_sha256": {
+    "corrected.md": "5d8130080f2fd02ee63adda90e52995a8fc37700725e864f60abaa768a4a3675",
+    "covered.md": "dadfc89fdacd89ac81795ca4f659cb301dfde174954733d39e3d8ec3a82895ae",
+    "original.md": "49f57cb62f13e9c652e62a7f78de1c429f3915a812bac468b87f3b91a72d3b8a",
+    "README.md": "3453d5540eacd16becc627812379000256ecb022d8ff2365f7e5f7d704952b61",
+    "sources.json": "45649d27695cb6db5660adc4f17d3b33895204a4508c6277789bb52db0b5c866"
+  }
+}

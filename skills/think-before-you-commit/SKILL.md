@@ -62,9 +62,10 @@ Apply the engineering baseline's evidence and authority rules.
    restricted-action rules as the minimum protection. If the baseline is also
    unavailable, mark authority classification incomplete and defer potentially
    restricted execution pending the rules and human authorization.
-6. Return the plan and stop. Do not implement, execute restricted actions, create
-   a commit, or grant a compatibility exception. Handoffs are requirements,
-   not completed work.
+6. When consuming upstream artifacts, put the template's envelope on the first
+   line, before the title. Return the plan and stop. Do not implement, execute
+   restricted actions, create a commit, or grant a compatibility exception.
+   Handoffs are requirements, not completed work.
 
 ## Gates
 
@@ -76,7 +77,11 @@ Apply the engineering baseline's evidence and authority rules.
   no escape. Plan approval never covers restricted execution.
 
 Keep every required field, but use short fields and compact tables for small
-changes rather than eleven essays.
+changes rather than eleven essays. Prefer one ordered table linking each step to
+its files/components, AC-n criteria, verification and expected result; include
+step-specific rollback details there when useful. Other fields may reference
+those rows instead of repeating them. Keep the dedicated Restricted steps field
+and all required Interface Check, reversibility and rollback information.
 
 Present the Implementation Plan naturally using the required artifact structure,
 without announcing skill activation or narrating skill execution. Keep material

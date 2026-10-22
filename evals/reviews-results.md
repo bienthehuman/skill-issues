@@ -8,6 +8,12 @@ Raw captures and generated check logs in `evals/review-runs/` are retained local
 and ignored by Git. The fixtures, capture/audit tools, tests, and this summary
 remain versioned; transcript paths below require the local evidence directory.
 
+The [portable G2 reverse-rollback evidence](traces/g2-rollback/README.md) preserves
+the original failure, corrected blocking case and broader human-exception control
+with full prompts/finals, selected trace excerpts, exact fixture contents and
+hashes. It is independently inspectable from a checkout, not a full-transcript
+archive or a new behavioral evaluation. Original ignored captures are preserved.
+
 ## Delivered files and decisions
 
 - `skills/trust-issues/SKILL.md`: independent intent-first general review and

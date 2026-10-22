@@ -1,6 +1,6 @@
 # Skill Issues — project state
 
-Reviewed 2026-10-22 against `cdc1443` and the documentation working tree.
+Reviewed 2026-10-22 against `cdc1443` and the pre-freeze hardening working tree.
 This is a continuity record, not a specification or execution grant.
 
 ## Current position
@@ -38,8 +38,10 @@ Historical reports retain original failures and corrective runs; none were rerun
 as behavioral evaluations during this maintenance task:
 
 - [Initial results](evals/results.md) retain the blocked first attempt;
-  [Windows report](evals/windows-20261020/REPORT.md) reports the corrected Codex
-  9/9 reference-loading matrix and preserves the confounded original control.
+  the [tracked Windows follow-up summary](evals/results.md#native-windows-follow-up-historical-summary)
+  records the reported corrected Codex 9/9 reference-loading matrix and original
+  control's fixture confound. The detailed report and captures are retained only
+  locally in ignored `evals/windows-20261020/`, not in a fresh checkout.
   [Contract results](evals/contracts-results.md) record focused repaired passes.
 - [Review results](evals/reviews-results.md) retain rollback-exception and artifact
   envelope failures with partial corrective coverage. [Rollout results](evals/famous-last-words-results.md)
@@ -89,7 +91,10 @@ Both have since been implemented; this rationale is retained as decision history
 
 ## Next action
 
-Prepare a reviewed freeze/tag of the initial complete implementation, then use it
+Review the [pre-freeze hardening results](evals/pre-freeze-hardening-results.md),
+include the new evidence package in version control (Git-index approval was
+declined during hardening), then prepare a reviewed freeze/tag of the initial
+complete implementation and use it
 in one portfolio project under SPEC 11.10. Record the installed inventory,
 agent/model/settings and version with observations in the existing friction log;
 preserve failed cases for comparable regression checks. This recommendation is
@@ -97,14 +102,19 @@ not authorization to commit, tag, push or execute restricted actions.
 
 ## Transient state
 
-The working tree was clean at this task's start; the previously recorded untracked
-performance implementation is now committed. This task changes documentation only.
-Ignored captures and other existing local work are preserved. No skill or baseline
-implementation, comprehensive evaluation, dependency, commit or push is part of it.
+The working tree was clean at this task's start; all 17 implementations are committed.
+The earlier documentation reconciliation exists in `22674ab` on
+`feat/readiness-check`, but HEAD returned to `master` at `cdc1443`; that branch
+change explains the stale guidance. The three documentation corrections were
+reapplied selectively here; the other branch and its SPEC edits remain untouched.
+This hardening task also preserves portable G2 evidence and adjusts planning
+presentation only. Existing ignored captures and other local work are preserved;
+no baseline/specification change, dependency, commit, tag or push is included.
 
-## Maintenance verification — 2026-10-22
+## Prior documentation verification — 2026-10-22
 
-Newly executed with bundled Python 3.12.14 (`-B`):
+Reported in `22674ab` with bundled Python 3.12.14 (`-B`); these are historical
+maintenance results, not fresh executions by the hardening task:
 
 - `python -B -m unittest discover -s tests -q`: sandbox attempt ran 107 tests
   with 111 temporary-fixture access error records; approved outside-sandbox rerun

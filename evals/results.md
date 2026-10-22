@@ -1,6 +1,22 @@
 # Milestone 1 results — 2026-10-20
 
-**Latest native Windows evidence:** see [Windows report](windows-20261020/REPORT.md). The historical WSL results below are retained. The corrected Codex behavioral matrix passed; complete instruction isolation and cross-agent validation remain unestablished.
+## Native Windows follow-up (historical summary)
+
+The locally retained report `evals/windows-20261020/REPORT.md`, dated 2026-10-20,
+reports **9/9 corrected-fixture Codex reference-loading checks passed** under
+SPEC 11.0. The original B1 control introduced a public constructor dependency,
+legitimately affecting surface 2; a corrected fixture and fresh rerun replaced it
+in the valid matrix. The original attempt remains retained, not reclassified.
+
+This is a tracked summary of that historical report, not a new evaluation or a
+portable transcript archive. The detailed report, configuration records and raw
+captures are retained only locally in ignored `evals/windows-20261020/` and are
+unavailable in a fresh checkout. Global AGENTS instructions remained visible;
+complete instruction isolation was not achieved. Claude Code was deferred and
+not executed; cross-agent validation and the full Milestone 1 criteria remain unmet.
+
+The remaining sections preserve the original WSL attempt and its limitations;
+their blocked results are not results from the later native Windows matrix.
 
 ## Automated checks
 
