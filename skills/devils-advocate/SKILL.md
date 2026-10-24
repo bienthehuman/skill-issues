@@ -57,6 +57,10 @@ challenge session.
    winning argument: explain what it establishes, what it does not, and why the
    balance of evidence supports the recommendation. Strengthen the decision,
    without performative skepticism or reflexive opposition.
+   For consequential product or feature directions, compare supported proposal value
+   against worthwhile work displaced by pursuing it, including meaningful costs of
+   delaying either the proposal or its alternatives. Do not require formal business
+   analysis, numerical ROI, or invented estimates.
 5. Examine incentives and adoption friction using actual context: existing user
    workflows, training/migration costs, stakeholder incentives, ownership,
    support and maintenance responsibilities, operational capacity, and extra

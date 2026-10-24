@@ -22,7 +22,7 @@ def hashes(folder):
 def capture(run_id, case, output_root, prepare_run=prepare,
             expected_skills=('think-before-you-commit',), baseline_path=None,
             sandbox='read-only', model=None, reasoning_effort=None,
-            evaluation_scope=None):
+            evaluation_scope=None, followups=(), before_followup=None):
     baseline_path = Path(baseline_path) if baseline_path is not None else ROOT / 'BASELINE.md'
     output = output_root.resolve() / run_id
     output.mkdir(parents=True, exist_ok=False)
@@ -71,7 +71,8 @@ def capture(run_id, case, output_root, prepare_run=prepare,
                 'baseline_delivery': 'developer_instructions; project_doc_max_bytes=0',
                 'baseline_path': str(baseline_path.resolve()),
                 'baseline_sha256': hashlib.sha256(baseline_path.read_bytes()).hexdigest(),
-                'fixture_before': before, 'canonical_before': canonical, 'human_prompts': 0}
+                'fixture_before': before, 'canonical_before': canonical, 'human_prompts': 0,
+                'scripted_followups': list(followups)}
     # Debug uses the same overrides, but lacks exec's ignore-user-config switch.
     # Review this inventory before treating it as evidence of an isolated run.
     audit = common + ['debug', 'prompt-input', prompt]
@@ -94,7 +95,7 @@ def capture(run_id, case, output_root, prepare_run=prepare,
         raise RuntimeError(metadata['result'])
     (output / 'manifest.json').write_bytes((project / 'manifest.json').read_bytes())
     (output / 'prompt.txt').write_text(prompt, encoding='utf-8')
-    command = common + ['exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check',
+    command = common + ['exec', '--ignore-user-config'] + ([] if followups else ['--ephemeral']) + ['--skip-git-repo-check',
                         '--json', '-o', str(output / 'final.md'), '-']
     metadata['argv'] = command
     (output / 'run.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
@@ -102,6 +103,32 @@ def capture(run_id, case, output_root, prepare_run=prepare,
     with (output / 'trace.jsonl').open('wb') as stdout, (output / 'stderr.txt').open('wb') as stderr:
         result = subprocess.run(command, cwd=project, input=prompt.encode('utf-8'), stdout=stdout, stderr=stderr)
     metadata['exit_code'] = result.returncode
+    metadata['turns'] = [{'prompt': prompt, 'exit_code': result.returncode,
+                          'trace': 'trace.jsonl', 'final': 'final.md'}]
+    if followups and result.returncode == 0:
+        events = [json.loads(line) for line in (output / 'trace.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+        session_id = next((event.get('thread_id') for event in events if event.get('type') == 'thread.started'), None)
+        if not session_id:
+            metadata['continuation_blocked'] = 'No thread.started session ID in trace'
+        else:
+            metadata['session_id'] = session_id
+            for index, followup in enumerate(followups):
+                if before_followup is not None:
+                    before_followup(project, case, index)
+                turn = index + 2
+                trace_name, final_name = f'trace-turn{turn}.jsonl', f'final-turn{turn}.md'
+                (output / f'prompt-turn{turn}.txt').write_text(followup, encoding='utf-8')
+                resume = common + ['exec', 'resume', '--ignore-user-config', '--skip-git-repo-check',
+                                   '--json', '-o', str(output / final_name), session_id, '-']
+                with (output / trace_name).open('wb') as stdout, (output / f'stderr-turn{turn}.txt').open('wb') as stderr:
+                    continuation = subprocess.run(resume, cwd=project, input=followup.encode('utf-8'), stdout=stdout, stderr=stderr)
+                metadata['turns'].append({'prompt': followup, 'argv': resume,
+                    'exit_code': continuation.returncode, 'trace': trace_name, 'final': final_name,
+                    'fixture_after': hashes(project)})
+                (output / 'run.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
+                if continuation.returncode:
+                    metadata['continuation_blocked'] = f'Turn {turn} process exit {continuation.returncode}'
+                    break
     metadata['fixture_after'] = hashes(project)
     metadata['fixture_unchanged'] = metadata['fixture_after'] == before
     metadata['canonical_after'] = {name: hashes(ROOT / name) for name in ('skills', 'shared')}
