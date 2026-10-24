@@ -26,6 +26,23 @@ not established decisions. Use `inferred` for conclusions from observed facts,
 Untagged claims still name direct supporting material/checks. Identify load-bearing
 claims and their revalidation needs; re-surface unresolved assumptions below.
 
+Optional prediction/outcome notes may sit beneath an existing decision ID only
+when an actual user prediction exists and recording is requested, previously
+established, or accepted by the user. Omit the block when recording is not wanted
+or useful; no new top-level field is required.
+
+  - Prediction: <what the user expected and under what relevant conditions>
+  - Evidence to check: <observation that would confirm or challenge the prediction>
+  - Outcome: pending
+
+When evidence becomes available, append the observation beneath Outcome with
+its source and relevant conditions; distinguish attributed reports from
+independently checked observations. Append any supported difference or lesson,
+attributing user lessons and marking agent-proposed lessons inferred. Preserve
+the original prediction. Confidence, detailed provenance, dated revisions, and
+additional conditions are optional where useful. Never invent missing content,
+repeat pending-outcome reminders, or treat these notes as execution authority.
+
 ## Recorded exceptions
 
 Read [authorization.md](authorization.md) before recording exceptions and grants;

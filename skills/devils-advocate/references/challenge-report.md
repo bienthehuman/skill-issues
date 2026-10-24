@@ -49,6 +49,11 @@ consequence from theoretical possibility. Weigh evidence supporting the proposal
 as seriously as evidence against it. State what the counter-case establishes and
 its limits; the strongest counterargument is not automatically the winning argument.
 
+For consequential product or feature directions, compare supported proposal value
+against worthwhile work displaced by pursuing it, including meaningful costs of
+delaying either the proposal or its alternatives. Do not require formal business
+analysis, numerical ROI, or invented estimates.
+
 ## Incentives and adoption friction
 
 Relevant workflows, training/migration costs, stakeholder incentives, ownership,

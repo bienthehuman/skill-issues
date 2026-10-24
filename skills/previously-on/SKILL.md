@@ -61,6 +61,22 @@ conditions; a proposal stays proposed, not granted.
    controller edit into an established durable decision. Keep durable constraints
    distinct from transient work, files in flux, artifact locations/statuses, and
    the next actionable step.
+   For consequential or educationally valuable established decisions, optionally
+   attach prediction/outcome notes beneath the existing decision ID only when an
+   actual user prediction exists and recording is requested, previously established,
+   or accepted after one brief offer. Never log every decision or make recording a
+   condition of continuing. Respect an explicit refusal without offering again
+   unless the user reopens recording. Normally use only Prediction, Evidence to
+   check, and Outcome; keep Outcome pending until evidence is available. Never
+   invent user predictions, confidence, outcomes, or lessons. Preserve original
+   predictions; append later observations and supported differences or lessons
+   rather than overwriting them. Attribute reported outcomes and distinguish them
+   from independently checked observations. Attribute user lessons; label any
+   agent-proposed lesson inferred and support it with evidence. Confidence, detailed
+   provenance, dated revisions, and additional conditions are optional where useful;
+   basic source attribution still applies. Pending outcomes need no repeated
+   reminders. Preserve existing decision history, supersession, reversibility, ADR,
+   provenance, and authorization contracts.
 3. Preserve all eight template fields: Decision history (durable), Recorded
    exceptions, One-way items, ADRs written, Constraints established, Open questions,
    Session state (transient), and Authorization notes. Include every established
@@ -109,6 +125,11 @@ conditions; a proposal stays proposed, not granted.
    the inherited claim, while insufficient facts stay `unknown`. Do not silently
    replace repository evidence with a previous agent's summary or relabel all
    historical test results as currently verified.
+   For prediction/outcome notes, check outcome claims against available primary
+   evidence and relevant conditions. A historical handoff's outcome claim is not
+   independent verification. Preserve unsupported claims as attributed historical
+   reports; leave the outcome pending when no supported observation is available.
+   Append contradictory observations without rewriting the original prediction.
 4. Without repository access, state that current-state reconciliation is
    incomplete, list the required files/checks, and bound the proposed next action.
    Unverified claims remain visibly uncertain; missing evidence is not agreement.

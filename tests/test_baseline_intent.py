@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class BaselineIntentTests(unittest.TestCase):
     def test_intent_rule_follows_answer_first(self):
         lines = (ROOT / "BASELINE.md").read_text(encoding="utf-8").splitlines()
-        index = next(i for i, line in enumerate(lines) if line.startswith("- Answer first."))
+        index = next(i for i, line in enumerate(lines) if line.startswith("- Answer first, except for the bounded learning-first invitation below."))
         rule = lines[index + 1]
         for phrase in ("Match the intent: action, analysis, discussion, or acknowledgment",
                        "if a question or offer is pending, treat a bare yes as action",
